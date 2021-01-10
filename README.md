@@ -42,6 +42,26 @@ on JSX. JSX controls everything which renders to the screen.
 
 ### Video 7 - Setting up a web server
 
+```bash
+mkdir -p react-course-projects/indecision-app
+cd react-course-projects/indecision-app
+mkdir public           # contains all assets we want to serve
+```
+Create a basic index.html page in the public directory.
+
+Now we are going to install liveserver. It's a light weight server. Live reload.
+
+```bash
+cd react-course-projects/indecision-app  # seems like you need to be in this directory to install.
+yarn global add live-server  # ends up being installed in ${HOME}/.yarn/bin directory
+
+npm install -g live-server  # THIS method may be needed if yarn didn't install correctly.
+
+live-server -v   # prints the version
+
+live-server public   # start the live server on port :8080 and serves the /public directory
+```
+
 ### Video 8 - Hello React
 
 ### Video 9 - Setting up Babel
@@ -63,3 +83,11 @@ on JSX. JSX controls everything which renders to the screen.
 ### Video 17 - Manual Data Binding
 
 ### Video 18 - Forms and Inputs
+
+### Video 19 - Arrays in JSX
+
+### Video 20 - Picking an Option
+
+### Video 21 - BUild it: Visibility Toggle
+
+## Section 4 - React Components
