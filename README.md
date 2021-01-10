@@ -4,8 +4,9 @@
 
 ### Video 3 - Setting up your environment
 
-
 ### Video 4 - Installing Visual Studio
+
+https://code.visualstudio.com
 
 ### Video 5 - Install Node.js and yarn
 
