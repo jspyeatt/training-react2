@@ -37,6 +37,9 @@ yarn --version
 
 ### Video 6 - Hello React
 
+Final versions of the indecision app at http://indecision.mead.io and source code http://links.mead.io/indecision. This section works mostly 
+on JSX. JSX controls everything which renders to the screen.
+
 ### Video 7 - Setting up a web server
 
 ### Video 8 - Hello React
@@ -51,4 +54,12 @@ yarn --version
 
 ### Video 13 - ES6 Aside: const and let
 
-### Video 14 - 
+### Video 14 - ES6 Aside: Arrow functions
+
+### Video 15 - ES6 Aside: Arrow functions part 2
+
+### Video 16 - Events and Attributes
+
+### Video 17 - Manual Data Binding
+
+### Video 18 - Forms and Inputs
