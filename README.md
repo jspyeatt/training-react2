@@ -105,6 +105,87 @@ is what browsers understand.
 
 ### Video 9 - Setting up Babel
 
+[babel](https://babeljs.io) is a compiler. But we have to add plugins and presets. Presets are groups of plugins.  We need to include
+the react preset. The docs plugins page will have the official presets. We need 2: `react` and `env` preset. This gives us access
+to `es2015`, `es2016` and `es2017`.
+
+```bash
+cd indecision-app
+yarn global add babel-cli@6.24.1
+
+babel --help
+```
+
+Initialize the indecision app with yarn. We do this to start doing the packaging.
+
+```bash
+cd indecision-app
+yarn init   # you will be prompted for some answers to questions
+
+NAME: indecision-app
+VERSION: 1.0.0
+DESCRIPTION: Indecision App
+ENTRY POINT: index.js
+REPOSITORY URL: (Blank for now)
+AUTHOR: John Pyeatt
+LICENSE: MIT
+```
+This will create a `package.json` file.
+
+```json
+{
+  "name": "indecision-app",
+  "version": "1.0.0",
+  "description": "Indecision App",
+  "main": "index.js",
+  "author": "John Pyeatt",
+  "license": "MIT"
+}
+```
+
+```bash
+yarn add babel-preset-react@6.24.1 babel-preset-env@1.5.2
+```
+This will update package.json and also add the directory `node_modules` which just contains all the dependencies your project needs.
+You never need to archive anything in `node_modules`. Those modules are pulled in based on the contents of package.json. If you blow
+`node_modules` away, you can get everything back by calling `yarn install`.
+
+
+```javascript
+{
+  "name": "indecision-app",
+  "version": "1.0.0",
+  "description": "Indecision App",
+  "main": "index.js",
+  "author": "John Pyeatt",
+  "license": "MIT",
+  "dependencies": {
+    "babel-preset-env": "1.5.2",
+    "babel-preset-react": "6.24.1"
+  }
+}
+
+```
+
+`yarn.lock` just lists out all dependencies and where it got them. You don't manually edit this.
+
+Now we can use babel. 
+
+Create a new folder in root of project `src`. And add the file app.js. This will be our source file. When it is compiled it will put 
+the resulting, compiled version of the file in the public/scripts directory which is served by the web server.
+
+```bash
+babel src/app.js --out-file public/scripts/app.js --presets=env,react --watch
+```
+**Important** the `--watch` argument will watch our src/app.js file and regenerate public/scripts/app.js as we change and save 
+our source file.
+
+In another terminal window we will start live-server again.
+```bash
+live-server public
+```
+
+
 ### Video 10 - Exploring JSX
 
 ### Video 11 - JSX Expressions
