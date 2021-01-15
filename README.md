@@ -188,6 +188,25 @@ live-server public
 
 ### Video 10 - Exploring JSX
 
+More complicated JSX
+```
+var template = <h1>App.js is running</h1><p>This is some info</p>
+```
+This fails because you can only have one parent element in a jsx variable. So we need to
+wrap this in something like a div tag.
+
+```
+var template = <div><h1>App.js is running</h1><p>This is some info</p></div>;
+```
+or to make it clearer, wrap everything in a `(` and `)`.
+```
+var template = (
+    <div>
+      <h1>App.js is running</h1>
+      <p>This is some info</p>
+    </div>);
+```
+
 ### Video 11 - JSX Expressions
 
 ### Video 12 - Conditional Rendering in JSX
