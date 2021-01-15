@@ -390,8 +390,103 @@ const arrowExp = (x) => x * x;
 console.log("squareExpr", squareArrow(4));
 ```
 
-
 ### Video 15 - ES6 Aside: Arrow functions part 2
+
+Important differences between ES5 and ES6 functions.
+
+The arguments object is no longer bound with arrow functions. The `this` keyword is no longer bound either.
+#### arguments variable
+```javascript
+const add = function (a,b) {
+  console.log(arguments);  // you have access to this in an es5 function definition.
+  return a+b;
+}
+console.log("add", add(56,1));
+```
+
+You don't have access to `arguments` with arrow functions.
+```javascript
+const addArrow = (a,b) => {
+  console.log("arrow add", arguments);  // this will fail because arrow functions can't access arguments.
+  return a+b;
+};
+```
+If you need to be able to do varargs stuff, you need to use es5 functions.
+
+#### 'this' keyword
+
+ES5
+```javascript
+const user = {
+   name: 'John',
+   cities: ['Madison', 'Verona', 'Memphis'],
+   printPlacesLived: function() {
+      console.log(this.name);
+      console.log(this.cities);
+      this.cities.forEach(function(city) {
+         console.log(this.name, city);    // won't work because we don't have access to 'this' here.
+      });
+   }
+};
+```
+
+So where you define a regular named function like `printPlacesLived` you have access to the `this` keyword
+but if it is an unnamed function you don't.
+
+Arrow functions within the object definition do have access however.
+```javascript
+const user = {
+   name: 'John',
+   cities: ['Madison', 'Verona', 'Memphis'],
+   printPlacesLived: function() {
+      console.log(this.name);
+      console.log(this.cities);
+      this.cities.forEach((city) => {
+         console.log(this.name + city);   // works fine.
+      });
+   }
+};
+```
+
+If you try to make printPlacesLived an arrow function (es6) like this
+```javascript
+const user = {
+   name: 'John',
+   cities: ['Madison', 'Verona', 'Memphis'],
+   printPlacesLived: () => {
+      console.log(this.name);
+      console.log(this.cities);
+   }
+};
+```
+The above will fail because arrow functions are not bound to their parent objects, so the `this` keyword is undefined.
+
+#### es6 method definition syntax on objects.
+```javascript
+const user2 = {
+    name: 'John',
+    cities: ['London', 'Manchester', 'Liverpool'],
+    printPlacesLived2() {
+       const cityMsgs = this.cities.map((city) => {
+          return this.name + ' LIVED ' + city;
+       });
+       return cityMsgs;
+    }
+ };
+```
+
+#### challenge
+
+```javascript
+ const multiplier = {
+   numbers: [1, 5, 6],
+   multiplyBy: 7,
+   multiply() {
+        return this.numbers.map((v) => v * this.multiplyBy)
+   }
+ };
+ console.log(multiplier.multiply());
+```
 
 ### Video 16 - Events and Attributes
 
