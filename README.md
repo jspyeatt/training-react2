@@ -195,11 +195,11 @@ var template = <h1>App.js is running</h1><p>This is some info</p>
 This fails because you can only have one parent element in a jsx variable. So we need to
 wrap this in something like a div tag.
 
-```
+```javascript
 var template = <div><h1>App.js is running</h1><p>This is some info</p></div>;
 ```
 or to make it clearer, wrap everything in a `(` and `)`.
-```
+```javascript
 var template = (
     <div>
       <h1>App.js is running</h1>
@@ -209,7 +209,7 @@ var template = (
 
 ### Video 11 - JSX Expressions
 
-```
+```javascript
 var userName = 'John Pyeatt';
 var age = 57;
 var userLocation = 'Verona';
@@ -220,13 +220,13 @@ var template = (
       <p>Location: {userLocation.toUpperCase()}</p>
     </div>);
 ```
-What can you put in the `{}`? Any javascript exception.
+What can you put in the `{}`? Any javascript expression.
 
 You can also define objects and reference them as well. But remember, Objects are
 not valid as a React child.
 
 ```javascript
-var user = {name: "John", age: 57}
+var user = {name: "John", age: 57, location: 'Verona'}
 
 var template = (
    <div>
@@ -236,6 +236,81 @@ var template = (
 ```
 
 ### Video 12 - Conditional Rendering in JSX
+
+In between the `{}` of a JSX variable you can only put in javascript expressions. You
+can't put in things like `if` statements. But function calls are expressions. So we can 
+do that.
+
+Here we are going to conditionally display the location tag.
+
+```javascript
+var user = {name: "John", age: 57, location: 'Verona'}
+
+function getLocation(loc) {
+   if (loc) {
+      return loc;
+   }
+   return 'Unknown';
+}
+
+var template = {
+   <div>
+      <p>Name: {user.name}</p>
+      <p>Location: {getLocation(user.location)}</p>
+   </div>
+};
+```
+
+Even better, we can conditionally display the entire Location paragraph.
+
+```javascript
+function getLocation(loc) {
+   if (loc) {
+      return <p>Location: {loc}</p>;
+   }
+   return 'Unknown';
+}
+
+var template = {
+   <div>
+      <p>Name: {user.name}</p>
+      <p>Location: {getLocation(user.location)}</p>
+   </div>
+};
+```
+
+For JSX expressions which evaluate to `undefined`, `null` and boolean react renders nothing.
+
+Here is another way to do conditionals using the ternary operator.
+
+```javascript
+<h1>{user.name ? user.name : 'Anonymous'}</h1>
+```
+
+Logical AND is another powerful tool.
+
+```javascript
+true && 'Some age'   // this returns 'Some age'
+```
+So if you use logical `and` and the first expression is truthy and the second value is
+also truthy, `and` actually returns the value of the second part of the and. If the first
+value is false, then the value returned by `and` is false and remember false is not
+rendered by react. This is really useful.
+
+ Here's an example of conditionally displaying the age
+if they are over 18.
+```javascript
+{user.age >= 18 && <p>Age: {user.age}</p>}  // if the age > 18, render the paragraph, otherwise it does nothing.
+```
+
+Slightly safer expression is:
+```javascript
+{(user.age && user.age >= 18) && <p>Age: {user.age}</p>}
+```
+
+Morale of the conditionals. If you want to display a result or nothing, use logical `and`.
+If you want to display something, or something else use ternary operator.
+
 
 ### Video 13 - ES6 Aside: const and let
 
