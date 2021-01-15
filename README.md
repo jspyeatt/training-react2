@@ -365,6 +365,32 @@ console.log('lastName', lastName);     // not valid, const is block-scoped.
 
 ### Video 14 - ES6 Aside: Arrow functions
 
+#### ES5 function
+```javascript
+function square(x) {
+   return x * x;
+}
+console.log("square", square(4));
+```
+
+#### ES6 arrow function
+
+```javascript
+const squareArrow = (x) => {
+  return x * x;
+};
+console.log("squareArrow", squareArrow(4));
+```
+You cannot just declare an arrow function like you can an es5 function. You must assign it to a variable.
+
+
+Arrow function expression syntax if the function just returns a single expression. 
+```javascript
+const arrowExp = (x) => x * x;
+console.log("squareExpr", squareArrow(4));
+```
+
+
 ### Video 15 - ES6 Aside: Arrow functions part 2
 
 ### Video 16 - Events and Attributes
