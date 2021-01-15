@@ -209,6 +209,31 @@ var template = (
 
 ### Video 11 - JSX Expressions
 
+```
+var userName = 'John Pyeatt';
+var age = 57;
+var userLocation = 'Verona';
+var template = (
+    <div>
+      <h1>{userName}</h1>
+      <p>Age: {age}</p>
+      <p>Location: {userLocation.toUpperCase()}</p>
+    </div>);
+```
+What can you put in the `{}`? Any javascript exception.
+
+You can also define objects and reference them as well. But remember, Objects are
+not valid as a React child.
+
+```javascript
+var user = {name: "John", age: 57}
+
+var template = (
+   <div>
+      <h1>Name: {user.name}</h1>
+   </div>
+);
+
 ### Video 12 - Conditional Rendering in JSX
 
 ### Video 13 - ES6 Aside: const and let
