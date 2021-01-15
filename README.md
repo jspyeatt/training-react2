@@ -314,6 +314,55 @@ If you want to display something, or something else use ternary operator.
 
 ### Video 13 - ES6 Aside: const and let
 
+
+
+To go over this we are going to create a second directory under source
+called `playground`. And in there create the file es6-let-const.js
+
+Then restart babel pointing at new file.
+
+```bash
+babel src/playground/es6-let-const.js --out-file public/scripts/app.js --presets=env,react --watch
+```
+
+`var` has quirks. this is perfectly legal.
+
+```javascript
+var nameVar = 'John';
+var nameVar = 'Mike';  // I'm redefining it here.
+```
+
+`let` allows you to assign variables as much as you like, but you can't redefine them.
+
+```javascript
+let nameLet = 'John';
+nameLet = 'Pyeatt';  // perfectly fine.
+let nameLet = 'John';  // attempting to reassign nameLet, this will blow up in babel.
+```
+
+`const` can only be defined and assigned one time.
+```javascript
+const nameConst = 'John';
+nameConst = 'Pyeatt';  // babel will fail
+```
+
+`var` is function scoped.
+
+`let` and `const` are also function scoped and block scoped.
+
+```javascript
+var fullName = 'John Pyeatt';
+if (fullName) {
+    var firstName = fullName.split(' ')[0];
+    const lastName = fullName.split(' ')[1];
+    console.log('FirstName', firstName);
+    console.log('LastName', lastName);
+}
+console.log('firstName', firstName);   // completely valid because var is not block-scoped.
+console.log('lastName', lastName);     // not valid, const is block-scoped.
+```
+
+
 ### Video 14 - ES6 Aside: Arrow functions
 
 ### Video 15 - ES6 Aside: Arrow functions part 2
