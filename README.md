@@ -233,6 +233,7 @@ var template = (
       <h1>Name: {user.name}</h1>
    </div>
 );
+```
 
 ### Video 12 - Conditional Rendering in JSX
 
