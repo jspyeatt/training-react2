@@ -565,6 +565,44 @@ It keeps track of which parts of the template have actually changed and only rer
 need to be changed.
 
 ### Video 18 - Forms and Inputs
+Learn how to do something when the user submits a form. For this we are going to modify the options array.
+
+Unlike server side processing, we don't want to send a request to the server. We want to add the options
+values right on the client. So there are a few things we do differently.
+
+```javascript
+const onFormSubmit = (e) => {
+    e.preventDefault(); // Stops the full page refresh and the submission to a server.
+    const option = e.target.elements.optionButton.value;
+    console.log('submitted:', option);
+
+    // if a value was entered
+    if (option) {
+        app.options.push(option);   // add to options array.
+        e.target.elements.optionButton.value = '';   // clear the form
+        renderApp();
+    }
+};
+const template = (
+    <div>
+        <h1>{app.title}</h1>
+        {app.subtitle && <p>{app.subtitle}</p>}
+        <p>{(app.options && app.options.length > 0) ? 'Here are your options' : 'No options'}</p>
+        <p>{app.options.length}</p>
+        <form onSubmit={onFormSubmit}>
+        <input type="text" name="optionButton"/>
+        <button>Add Option</button>
+        </form>
+    </div>);
+```
+We need to add an event handler to the submit button. For a complete list of the react events you need
+to look at [Supported Events](https://reactjs.org/docs/events.html). We want `onSubmit` which identifies
+the event handler to run when the submit on the form is done.
+
+Note that in the onSubmit= we reference `onFormSubmit` by just identifying it. We don't actually call
+it by putting in `onFormSubmit()`. If we did that it would just render as undefined.
+
+
 
 ### Video 19 - Arrays in JSX
 
