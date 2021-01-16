@@ -647,6 +647,44 @@ const onMakeDecision = () => {
 <button disabled={app.options.length == 0} onClick={onMakeDecision}>What should I do?</button>
 ```
 
-### Video 21 - BUild it: Visibility Toggle
+### Video 21 - Build it: Visibility Toggle
+
+Write a new app, build-it-visible.js with a Show/Hide details button. When you click the button it alternates
+showing and hiding some text.
+
 
 ## Section 4 - React Components
+
+### Video 22 - Section Intro React Components
+
+### Video 23 - Thinking In React
+
+### Video 24 - ES6 Classes: Part 1
+
+### Video 25 - ES6 Classes: Part 2
+
+### Video 26 - Creating a React Component
+
+### Video 27 - Nesting Components
+
+### Video 28 - Component Props
+
+### Video 29 - Events & Methods
+
+### Video 30 - Method Binding
+
+### Video 31 - What is Component State?
+
+### Video 32 - Adding State to Counter App: Part 1
+
+### Video 33 - Adding State to Counter App: Part 2
+
+### Video 34 - Alternate setState Syntax
+
+### Video 35 - Build It: Adding State to Visibility Toggle
+
+### Video 36 - Indecision State: Part 1
+
+### Video 37 - Indecision State: Part 2
+
+### Video 38 - Summary: Props vs. State
