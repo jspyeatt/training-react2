@@ -603,8 +603,35 @@ Note that in the onSubmit= we reference `onFormSubmit` by just identifying it. W
 it by putting in `onFormSubmit()`. If we did that it would just render as undefined.
 
 
-
 ### Video 19 - Arrays in JSX
+React works with strings, numbers and arrays. It doesn't work with objects and booleans. So arrays are fine.
+When jsx sees an array it renders them one after another.
+```javascript
+{
+   [99, 98, 97, true, undefined, false, 'Mike']   // renders as 999897Mike
+}
+```
+When using arrays to render jsx like this.
+```javascript
+{
+   [<p>One</p>,<p>two</p>]
+}
+```
+If you render it you will see a warning: Each chile in an array or iterator should have a unique key prop.
+This is needed for react to continue to only modify the dom for elements which actually change.
+
+```javascript
+{
+   [<p key="one">One</p>,<p key="two">two</p>]    // warning goes away. jsx can now optimize.
+}
+```
+Normally you use the array `map()` function to iterate over an array and build JSX templates.
+```javascript
+const numbers = [55, 101, 1000];
+{
+   numbers.map((v) => {return <p key={v}>{v}</p>;})
+}
+```
 
 ### Video 20 - Picking an Option
 

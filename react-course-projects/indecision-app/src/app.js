@@ -32,7 +32,11 @@ const renderApp = () => {
             <h1>{app.title}</h1>
             {app.subtitle && <p>{app.subtitle}</p>}
             <p>{(app.options && app.options.length > 0) ? 'Here are your options' : 'No options'}</p>
-            <p>Number of options: {app.options.length}</p>
+            <ol>
+            {
+                app.options.map((v) => {return <li key={v}>{v}</li>;})
+            }
+            </ol>
             <form onSubmit={onFormSubmit}>
             <input type="text" name="optionButton"/>
             <button>Add Option</button>
