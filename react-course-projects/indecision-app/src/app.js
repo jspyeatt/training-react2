@@ -26,6 +26,12 @@ const removeAllOptions = () => {
     renderApp();
 };
 
+const onMakeDecision = () => {
+    const randomNum = Math.floor(Math.random() * app.options.length);
+    console.log('Random',randomNum);
+    const selectedOption = app.options[randomNum];
+    alert(selectedOption);
+};
 const renderApp = () => {
     const template = (
         <div>
@@ -40,6 +46,7 @@ const renderApp = () => {
             <form onSubmit={onFormSubmit}>
             <input type="text" name="optionButton"/>
             <button>Add Option</button>
+            <button disabled={app.options.length == 0} onClick={onMakeDecision}>What should I do?</button>
             <button onClick={removeAllOptions}>Remove All</button>
             </form>
         </div>);

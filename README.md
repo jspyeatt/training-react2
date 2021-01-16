@@ -634,6 +634,18 @@ const numbers = [55, 101, 1000];
 ```
 
 ### Video 20 - Picking an Option
+We are going to conditionally allow a user to ask what to do. This will just pop up an alert when
+the button is selected. but we want the button disabled if no options are available.
+```javascript
+const onMakeDecision = () => {
+    const randomNum = Math.floor(Math.random() * app.options.length);
+    console.log('Random',randomNum);
+    const selectedOption = app.options[randomNum];
+    alert(selectedOption);
+};
+
+<button disabled={app.options.length == 0} onClick={onMakeDecision}>What should I do?</button>
+```
 
 ### Video 21 - BUild it: Visibility Toggle
 
