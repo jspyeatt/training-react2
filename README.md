@@ -534,6 +534,35 @@ const templateTwo = (
 );
 ```
 ### Video 17 - Manual Data Binding
+How to rerender when the count changes. JSX doesn't have built-in data binding. So the template is run at `ReactDOM.render() time. It doesn't detect changes to count.
+
+So what we need to do is rerender when things change. We do that by moving the template into a function.
+```javascript
+const addOne = () => {
+    count++;
+    console.log("addOne " + count);
+    renderCounterApp()                 // Now rerendering
+};
+const appRoot = document.getElementById("app");
+
+// Now moved the template rendering to a function so we can call it after an onClick event.
+const renderCounterApp = () => {
+    const templateTwo = (
+        <div>
+            <h1>Count: {count}</h1>
+            <button onClick={addOne} id="add-button">+1</button>
+            <button onClick={minusOne} id="sub-button">-1</button>
+            <button onClick={resetCounter} id="reset-button">Reset</button>
+        </div>
+    );
+    ReactDOM.render(templateTwo, appRoot);
+};
+renderCounterApp(); // this initializes the application.
+```
+
+The `renderCounterApp` redefines the template. Then ReactDOM.render() rerenders. But render() is very smart.
+It keeps track of which parts of the template have actually changed and only rerenders those elements which
+need to be changed.
 
 ### Video 18 - Forms and Inputs
 
