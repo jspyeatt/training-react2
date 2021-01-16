@@ -394,7 +394,7 @@ console.log("squareExpr", squareArrow(4));
 
 Important differences between ES5 and ES6 functions.
 
-The arguments object is no longer bound with arrow functions. The `this` keyword is no longer bound either.
+The `arguments` object is no longer bound with arrow functions. The `this` keyword is no longer bound either.
 #### arguments variable
 ```javascript
 const add = function (a,b) {
@@ -448,7 +448,7 @@ const user = {
 };
 ```
 
-If you try to make printPlacesLived an arrow function (es6) like this
+If you try to make printPlacesLived an arrow function (es6) like this.
 ```javascript
 const user = {
    name: 'John',
@@ -462,6 +462,8 @@ const user = {
 The above will fail because arrow functions are not bound to their parent objects, so the `this` keyword is undefined.
 
 #### es6 method definition syntax on objects.
+
+Accessing the `this` object in cityMsgs will work below because it's within a named function.
 ```javascript
 const user2 = {
     name: 'John',
@@ -490,6 +492,47 @@ const user2 = {
 
 ### Video 16 - Events and Attributes
 
+We are going to add a counter to the screen.
+
+```javascript
+let count = 0;
+const templateTwo = (
+   <div>
+      <h1>Count: {count}</h1>
+      <button id="my-plus-button" className="button">+1</button>
+   </div>
+);
+```
+`id` is an attribute that is passed to the DOM for rendering. Another attribute commonly used is `class`.
+But with `class` you will get an error Unknown DOM property, did you mean className? So `class` now needs
+to be called `className` because class is a reserved html word.
+
+babel converts template2 to an object. If you look at that object in the console you will see Object->props->children. And if you look at one of those children you will find another props object and in there you will
+see the tag attributes such as `id` and `className`. For a complete list look at [React DOM Elements](https://reactjs.org/docs/dom-elements.html).
+
+We can change the code a bit to implement an event listener.
+```javascript
+const buttonId = "my-plus-button";   // assign the button name
+let count = 0;
+const templateTwo = (
+   <div>
+      <h1>Count: {count}</h1>
+      <button id={buttonId} className="button">+1</button>   // Use the const for the id=
+   </div>
+);
+```
+This is useful for setting up a click event.
+```javascript
+const addOne = () => {
+   console.log("addOne clicked");
+};
+const templateTwo = (
+   <div>
+      <h1>Count: {count}</h1>
+      <button onClick={addOne} id={buttonId}>+1</button>   // Defining onClick
+   </div>
+);
+```
 ### Video 17 - Manual Data Binding
 
 ### Video 18 - Forms and Inputs

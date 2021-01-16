@@ -14,39 +14,24 @@ const template = (
         <p>{(app.options && app.options.length > 0) ? 'Here are your options' : 'No options'}</p>
     </div>);
 
-const user = {
-    name: 'Fred',
-    age: 23,
-    userLocation: 'Madison'
-}
-const userName = 'John Pyeatt';
-const age = 58;
-const userLocation = 'Verona';
-
-function getLocation(loc) {
-    if (loc) {
-        return <p>Location: {loc}</p>;
-    }
-}
-const template2 = (
+let count = 0;
+const addOne = () => {
+    console.log("addOne");
+};
+const minusOne = () => {
+    console.log("minusOne");
+};
+const resetCounter = () => {
+    console.log("resetCounter");
+};
+const templateTwo = (
     <div>
-        <h1>{user.name}</h1>
-        <p>Age: {user.age}</p>
-        {getLocation(user.userLocation)}
-        <p>Other Name:{user.name}</p>
+        <h1>Count: {count}</h1>
+        <button onClick={addOne} id="add-button">+1</button> 
+        <button onClick={minusOne} id="sub-button">-1</button> 
+        <button onClick={resetCounter} id="reset-button">Reset</button> 
     </div>
 );
 
-// the ternary operator example
-const template3 = (
-    <div>
-        <h1>{user.name ? user.name : 'Anonymous'}</h1>
-        {user.age >= 18 && <p>Age: {user.age}</p>}
-        {getLocation(user.userLocation)}
-        <p>Other Name:{user.name}</p>
-    </div>
-);
 const appRoot = document.getElementById("app");
-ReactDOM.render(template, appRoot);
-// ReactDOM.render(template2, appRoot);
-//ReactDOM.render(template3, appRoot);
+ReactDOM.render(templateTwo, appRoot);
