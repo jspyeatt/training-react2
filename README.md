@@ -655,9 +655,23 @@ showing and hiding some text.
 
 ## Section 4 - React Components
 
-### Video 22 - Section Intro React Components
-
 ### Video 23 - Thinking In React
+
+You want to break pages into logical, reusable components. It's usually an individual piece of the UI.
+Maybe a header, a footer, or a menu.
+
+You end up basically creating custom html components such as `<Header/>`.
+
+For each page, you create a parent tag and then add the components.
+
+So for indecision app we might have:
+
+1. Parent component - `<IndecisionApp/>`
+1. `<Header/>`
+1. Question title - `<Action/>`
+1. Options `<Options/>`
+1. `<Option/>` - reusable and nested in `<Options/>`
+1. Add Option form. - `<AddOption/>`
 
 ### Video 24 - ES6 Classes: Part 1
 
