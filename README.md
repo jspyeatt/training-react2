@@ -675,6 +675,48 @@ So for indecision app we might have:
 
 ### Video 24 - ES6 Classes: Part 1
 
+The goal of classes is to reuse code.
+```javascript
+class Person {
+    // constructor function
+    constructor(name) {
+        this.name = name;
+    }
+}
+
+const me = new Person("John Pyeatt");
+```
+
+You don't have to specify all the arguments in a constructor. You can configure the constructor
+to provide defaults.
+```javascript
+class Person {
+    // constructor function
+    constructor(name = 'Anonymous') {   // provides a default
+        this.name = name;
+    }
+}
+```
+Now you can create methods.
+```javascript
+class Person {
+    // constructor function
+    constructor(name = 'Anonymous') {
+        this.name = name;
+    }
+
+    getGreeting() {
+       return "Hi I am " + this.name;
+    }
+}
+```
+
+#### ES^ Template Strings
+You use back-ticks 
+```javascript
+return `Hi, I am ${this.name}!`
+```
+
 ### Video 25 - ES6 Classes: Part 2
 
 ### Video 26 - Creating a React Component
