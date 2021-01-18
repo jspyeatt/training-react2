@@ -786,6 +786,28 @@ ReactDOM.render(jsx, document.getElementById('app'));
 ```
 
 ### Video 27 - Nesting Components
+The example in the previous video was just showing how to create components. In the real world, they
+should be organized a bit differently. We want one component to be the overarching component for the
+entire application. So we are going to create `<IndecisionApp/>` component and put all the other 
+components inside of that one.
+
+```javascript
+class IndecisionApp extends React.Component {
+    render() {
+        return (
+            <div>
+                <Header/>
+                <Action/>
+                <Options/>
+                <AddOption/>
+            </div>
+        )
+    }
+}
+
+// Then to render
+ReactDOM.render(<IndecisionApp/>, document.getElementById('app'));
+```
 
 ### Video 28 - Component Props
 
