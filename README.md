@@ -764,9 +764,26 @@ class Traveler extends Person {
     }
 }
 ```
-
-
 ### Video 26 - Creating a React Component
+First thing. We are going to redo the app.js as a series of react components. I moved the existing app.js
+to playground/jsx-indecision.js to save the old version.
+
+Simplest react component, Header.
+```javascript
+class Header extends React.Component {    // WARNING: React requires component classes to begin with upper case.
+    render() {
+        return <p>This is from HEADER</p>;
+    }
+}
+
+const jsx = (
+    <div>
+        <h1>Title</h1>
+        <Header/>             // our custom react header.
+    </div>
+)
+ReactDOM.render(jsx, document.getElementById('app'));
+```
 
 ### Video 27 - Nesting Components
 
