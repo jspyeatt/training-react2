@@ -810,6 +810,68 @@ ReactDOM.render(<IndecisionApp/>, document.getElementById('app'));
 ```
 
 ### Video 28 - Component Props
+Going to add attributes to the tags.
+
+```html
+<Header title='This is a custom title'/>
+```
+So we have to add logic to reference `title`. In the `this` object of your component there is a `props`
+attribute which will have any attributes you've placed in the tag.
+
+```javascript
+class Header extends React.Component {
+    render() {
+        return (
+            <div>
+            <h1>{this.props.title}</h1>  // reference to id=title from <Header/> tag.
+            <h2>Put your life in the hands of a computer.</h2>
+            </div>);
+    }
+}
+```
+For a first pass we want to render the list of options in the `<Options/>` tag. This isn't the final way
+we are going to do it. I'm just showing one option.
+```javascript
+class Options extends React.Component {
+    render() {
+        return (
+            <div>
+                <h2>Options here length={this.props.options.length}</h2>
+                <ol>
+                {
+                    this.props.options.map((opt) => <li key={opt}>{opt}</li>) // map loops through options array
+                }
+                </ol>
+            </div>
+        )
+    }
+}
+```
+The cleaner solution is to add an attribute to `<Option/>` tag.
+```javascript
+class Options extends React.Component {
+    render() {
+        return (
+            <div>
+                <h2>Options</h2>
+                <ol>
+                {
+                    this.props.options.map((option) => <Option optionText={option}/>)  // nested Option tag
+                }
+                </ol>
+            </div>
+        )
+    }
+}
+class Option extends React.Component {
+    render() {
+        const v = this.props.optionText;
+        return (
+            <li key={v}>{v}</li>  // just renders the attribute passed in.
+        )
+    }
+}
+```
 
 ### Video 29 - Events & Methods
 
