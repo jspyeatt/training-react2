@@ -711,13 +711,60 @@ class Person {
 }
 ```
 
-#### ES^ Template Strings
+#### ES6 Template Strings
 You use back-ticks 
 ```javascript
 return `Hi, I am ${this.name}!`
 ```
 
 ### Video 25 - ES6 Classes: Part 2
+
+Extending a class.
+```javascript
+class Person {
+    // constructor function
+    constructor(name = 'Anonymous', age = 0) {
+        this.name = name;
+        this.age = age;
+    }
+    getGreeting() {
+       return "Hi I am " + this.name;
+    }
+    getDescription() {
+        return  `${this.name} is ${this.age} years old.`;
+    }
+}
+class Student extends Person {
+    constructor(name, age, major) {
+        super(name, age);
+        this.major = major;
+    }
+    hasMajor() {
+	return !!this.major;       // Using double falsey, !!, to return true if there is a major.
+    }
+    getDescription() {
+        let description = super.getDescription();
+        if (this.hasMajor()) {
+            description += ` Is a ${this.major} major.`
+        }
+        return description;
+    }
+}
+class Traveler extends Person {
+    constructor(name, age, homeLocation) {
+        super(name, age);
+        this.homeLocation = homeLocation;
+    }
+    getGreeting() {
+        let greeting = super.getGreeting();
+        if (this.homeLocation) {
+            greeting += ` I'm from ${this.homeLocation}.`
+        }
+        return greeting;
+    }
+}
+```
+
 
 ### Video 26 - Creating a React Component
 
