@@ -856,7 +856,7 @@ class Options extends React.Component {
                 <h2>Options</h2>
                 <ol>
                 {
-                    this.props.options.map((option) => <Option optionText={option}/>)  // nested Option tag
+                    this.props.options.map((option) => <Option key={option} optionText={option}/>)  // nested Option tag
                 }
                 </ol>
             </div>
@@ -867,13 +867,54 @@ class Option extends React.Component {
     render() {
         const v = this.props.optionText;
         return (
-            <li key={v}>{v}</li>  // just renders the attribute passed in.
+            <li>{v}</li>  // just renders the attribute passed in.
         )
     }
 }
 ```
 
 ### Video 29 - Events & Methods
+To handle events you need to do two things. Define the methods which are to react to the events and
+reference those methods when the event is clicked. So we have to bind the method to the event.
+
+You define the handling methods within the class of the react component, for example, `handlePick()` below.
+Then bind the method to the event in the `onClick` event described for the button.
+
+```javascript
+class Action extends React.Component {
+    handlePick() {
+        console.log('handlePick');
+    }
+    render() {
+        return (
+            <div>
+                <button onClick={this.handlePick}>What should I do?</button>
+            </div>
+        )
+    }
+}
+```
+Here's our form submission example with the `onSubmit` event.
+```javascript
+class AddOption extends React.Component {
+    handleAddOption(e) {
+        e.preventDefault();     // doesn't send data to server.
+        const option = e.target.elements.optionButton.value.trim();
+        if (option) {
+            console.log('adding option', option);
+        }
+        e.target.elements.optionButton.value = '';
+    }
+    render() {
+        return (
+            <form onSubmit={this.handleAddOption}>
+                <input type='text' name="optionButton" />
+                <button>Add Option</button>
+            </form>
+        )
+    }
+}
+```
 
 ### Video 30 - Method Binding
 
