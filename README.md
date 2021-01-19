@@ -917,6 +917,81 @@ class AddOption extends React.Component {
 ```
 
 ### Video 30 - Method Binding
+In the code below we've broken the reference to `this` in handlePick() when it is referenced
+in the `onClick={this.handlePick}` definition. It's a bit weird, but in the onClick we've referenced
+the method, but it's done outside the context of the object as a whole. The context includes the
+method only. So in `handlePick()` we don't have access to `this`.
+
+**Important** You always lose the context in event handlers. So you need to use [bind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Function/bind).
+
+```javascript
+class Options extends React.Component {
+    handleRemoveAll() {
+        console.log('Remove all',this.props.options);
+    }
+    render() {
+        return (
+            <div>
+                <h2>Options</h2>
+                <button onClick={this.handleRemoveAll}>Remove All</button>
+                <ol>
+                    {
+                        this.props.options.map((option) => <Option key={option} optionText={option} />)
+                    }
+                </ol>
+            </div>
+        )
+    }
+}
+```
+
+So we need to figure out how to bind everything together. We use the `bind()` method. Here's a simple example.
+```javascript
+const obj = {
+	name: 'John',
+	getName() {
+		return this.name;
+	}
+};
+const func1 = obj.getName();   // this will fail because I've lost the context. Basically func1 is
+                               // just getting a reference to the object's function, without the rest of
+                               // the obj data.
+const func2 = obj.getName.bind(obj);  // this will work, because we are binding the object to the object's
+                                      // getName() method.
+```
+
+So in our example above we add a bind() call to the onClick.
+```javascript
+<button onClick={this.handleRemoveAll.bind(this)}>Remove All</button>
+```
+But this mechanism is a bit inefficient. So the alternative thing to do is override the constructor. Then
+we don't have to re-`bind()` every time things are rendered. So the onClick doesn't actually call bind.
+This is the preferred way.
+
+```javascript
+class Options extends React.Component {
+    constructor(props) {
+        super(props);         // MAKE CERTAIN TO CALL PARENT CONSTRUCTOR
+        this.handleRemoveAll = this.handleRemoveAll.bind(this);  // PERFORM THE BIND HERE.
+    }
+    handleRemoveAll() {
+        console.log('Remove all',this.props.options);
+    }
+    render() {
+        return (
+            <div>
+                <h2>Options</h2>
+                <button onClick={this.handleRemoveAll}>Remove All</button>  <!-- NOTE: no bind() call needed here -->
+                <ol>
+                    {
+                        this.props.options.map((option) => <Option key={option} optionText={option} />)
+                    }
+                </ol>
+            </div>
+        )
+    }
+}
+```
 
 ### Video 31 - What is Component State?
 
