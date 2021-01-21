@@ -1033,6 +1033,58 @@ class Counter extends React.Component {
 
 ### Video 33 - Adding State to Counter App: Part 2
 
+To add state we need to set a default and store it in the class.
+You add an attribute to the class like this:
+```javascript
+this.state = {
+   count: 0
+}
+```
+
+Accessing the value of our state in the component is easy. It's going to look something like this:
+```html
+<h1>Count: {this.state.count}</h1>
+```
+
+When you want to manipulate the state values of a component you don't want to just change the values like
+this:
+```javascript
+    handleAddOne() {
+        console.log("handleAddOne");
+        this.state.count = this.state.count + 1
+    }
+```
+Because that won't rerender the component. To make modifications to the state and have it automatically re-rendered
+you need to call `this.setState()` as follows:
+```javascript
+    handleAddOne() {
+        console.log("handleAddOne");
+        this.setState((prevState) => {          // calling setState with an arrow function and passing in the previous state.
+            return {
+                count: prevState.count + 1
+            };
+        });
+    }
+```
+Now when setState() is called it will update the instance state data and call render() on its own. The one nice
+thing is that if your component has more than one state value, for example if the initial state looked like this:
+```javascript
+this.state = {
+   count: 0,
+   name: "my counter"
+}
+```
+When you call this.setState() if you only are changing the value of `count` for example you can just have your
+setState call look like this:
+```javascript
+        this.setState((prevState) => {.
+            return {
+                count: prevState.count + 1
+            };
+        });
+```
+this.state.name will remain unchanged.
+
 ### Video 34 - Alternate setState Syntax
 
 ### Video 35 - Build It: Adding State to Visibility Toggle
