@@ -1104,6 +1104,7 @@ first it resets to 0, then it adds 1. But that doesn't happen because these meth
 can't predict the order. So it's best to do the arrow function signature.
 
 ### Video 35 - Build It: Adding State to Visibility Toggle
+We are going to redo the visibility toggle app as components. So we are changing playground/build-it-visibile.js
 
 ### Video 36 - Indecision State: Part 1
 
