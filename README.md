@@ -995,6 +995,10 @@ class Options extends React.Component {
 
 ### Video 31 - What is Component State?
 
+Allows our components to manage data. When the data changes, the component will automatically re-render.
+
+Component's must have a default state. Then it is rendered automatically without calling render().
+
 ### Video 32 - Adding State to Counter App: Part 1
 
 ### Video 33 - Adding State to Counter App: Part 2
