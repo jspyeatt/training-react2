@@ -1000,6 +1000,36 @@ Allows our components to manage data. When the data changes, the component will 
 Component's must have a default state. Then it is rendered automatically without calling render().
 
 ### Video 32 - Adding State to Counter App: Part 1
+We are going to start with the simple Counter application redone as components.
+```javascript
+class Counter extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleAddOne = this.handleAddOne.bind(this);
+        this.handleMinusOne = this.handleMinusOne.bind(this);
+        this.handleReset = this.handleReset.bind(this);
+    }
+    handleAddOne() {
+        console.log("handleAddOne");
+    }
+    handleMinusOne() {
+        console.log("handleMinusOne");
+    }
+    handleReset() {
+        console.log("handleReset");
+    }
+    render() {
+        return (
+            <div>
+            <h1>Count: </h1>
+            <button onClick={this.handleAddOne}>+1</button>
+            <button onClick={this.handleMinusOne}>-1</button>
+            <button onClick={this.handleReset}>reset</button>
+            </div>
+        )
+    }
+}
+```
 
 ### Video 33 - Adding State to Counter App: Part 2
 

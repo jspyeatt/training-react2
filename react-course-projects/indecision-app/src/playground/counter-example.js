@@ -1,40 +1,29 @@
-console.log('App.js is running');
-
-// JSX - Javascript XML
-
-const app = {
-    title: "Indecision App",
-    subtitle: 'My first object.',
-    options: ['One', 'Two']
+class Counter extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleAddOne = this.handleAddOne.bind(this);
+        this.handleMinusOne = this.handleMinusOne.bind(this);
+        this.handleReset = this.handleReset.bind(this);
+    }
+    handleAddOne() {
+        console.log("handleAddOne");
+    }
+    handleMinusOne() {
+        console.log("handleMinusOne");
+    }
+    handleReset() {
+        console.log("handleReset");
+    }
+    render() {
+        return (
+            <div>
+            <h1>Count: </h1>
+            <button onClick={this.handleAddOne}>+1</button>
+            <button onClick={this.handleMinusOne}>-1</button>
+            <button onClick={this.handleReset}>reset</button>
+            </div>
+        )
+    }
 }
-let count = 0;
-const addOne = () => {
-    count++;
-    console.log("addOne " + count);
-    renderCounterApp() // Now rerendering
-};
-const minusOne = () => {
-    count--;
-    console.log("minusOne",count);
-    renderCounterApp() // Now rerendering
-};
-const resetCounter = () => {
-    count = 0;
-    console.log("resetCounter");
-    renderCounterApp() // Now rerendering
-};
 
-const appRoot = document.getElementById("app");
-
-const renderCounterApp = () => {
-    const templateTwo = (
-        <div>
-            <h1>Count: {count}</h1>
-            <button onClick={addOne} id="add-button">+1</button>
-            <button onClick={minusOne} id="sub-button">-1</button>
-            <button onClick={resetCounter} id="reset-button">Reset</button>
-        </div>
-    );
-    ReactDOM.render(templateTwo, appRoot);
-};
-renderCounterApp(); // this initializes the application.
+ReactDOM.render(<Counter/>, document.getElementById('app'));
