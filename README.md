@@ -1086,6 +1086,22 @@ setState call look like this:
 this.state.name will remain unchanged.
 
 ### Video 34 - Alternate setState Syntax
+Here is an older syntax for updating the state that shouldn't be used, but you may see. 
+
+```javascript
+    handleReset() {
+        console.log("handleReset");
+        this.setState({
+          count: 0
+        });
+        this.setState({
+          count: this.state.count + 1
+        });
+    }
+```
+Notice there are two setState methods. If you hit reset you would expect the count to end up being 1 because
+first it resets to 0, then it adds 1. But that doesn't happen because these methods are executed async. So you
+can't predict the order. So it's best to do the arrow function signature.
 
 ### Video 35 - Build It: Adding State to Visibility Toggle
 
