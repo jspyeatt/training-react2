@@ -1286,3 +1286,34 @@ class AddOption extends React.Component {
 }
 ```
 ### Video 38 - Summary: Props vs. State
+
+1. Props
+   . An object
+   . Can be used when rendering
+   . Changes (from above), cause re-rendering
+   . Come from above
+   . Can't be changed by component itself
+1. State
+   . An object
+   . Can be used when rendering
+   . Changes cause re-rendering
+   . Defined in component itself
+   . Can be changed by the owner of the state.
+
+### Video 39 - Section Intro: Stateless Functional Component
+
+### Video 40 - Stateless Functional Component
+
+### Video 41 - Default Prop Values
+
+### Video 42 - React Dev Tools
+
+### Video 43 - Removing Individual Options
+
+### Video 44 - Lifecycle Methods
+
+### Video 45 - Saving and Loading Options Data
+
+### Video 46 - Saving and Loading the Count
+
+
