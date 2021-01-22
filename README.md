@@ -1192,4 +1192,97 @@ class Options extends React.Component {
 
 ### Video 37 - Indecision State: Part 2
 
+In the previous video we passed a function down to a child component so that function could be called onClick to delete options.
+In this video we are going to do basically the same thing, except this time we are actually going to pass data up to the parent
+when we call the parent method.
+
+So in `<IndecisionApp/>` we add the method handleAddOption(option) which receives the new value. Then we add a property to the `<AddOption/>`
+tag and that property contains a reference to this.handleAddOption. So that is basically like the previous video.
+
+It's in the definition of the AddOption component itself where things get a little busier. Here's the final version of AddOption component.
+Explanations are in the comments to the class. This snippet is just showing the parts of the classes which changed.
+
+
+The IndecisionApp component's handleAddOption() method.
+```javascript
+    handleAddOption(option) {
+        console.log("IndecisionApp: handleAddOption " + option);
+
+        // In this case we are going to return an error string if
+        // they didn't enter anything or in the else, if there is a 
+        // duplicate. 
+        // the normal behavior for this method would be to return undefined.
+        // if a string is returned, there must be an error.
+        if (!option) {
+            return 'Error valid value!!';
+        } else if (this.state.options.indexOf(option) > -1) {
+            return 'The value ' + option + ' already exists.';
+        }
+
+        // set the new state.
+        this.setState((prevState) => {
+            return {
+                options: prevState.options.concat(option)
+            }
+        });
+        // returns undefined.
+    }
+```
+In the render() method of IndecisionApp component we add the handleAddOption property to `<AddOption>` and reference the handleAddOptionProperty.
+```html
+<AddOption handleAddOption={this.handleAddOption} />
+```
+Then in the `<AddOption>` component we do the following:
+
+1. we are keeping handleAddOptionChild(e) in this component because it does more than just pass an option value. It now manages the state
+of the error field and still suppresses form submission with the e.preventDefault() ca..
+1. because we need to manage the error state of the AddOption component we need to add this.state to the constructor and need to bind this
+component's version of handleAddOptionChild.
+1. We've added error message rendering. We do this by checking for a return value from this.props.handleAddOption(e). if the return is
+undefined, there was no error. If there is something returned. We need to update the state of the AddOption state.error value.
+1. Then we added conditional rendering of an error message `<p>` tag if this.state.error is not empty.
+
+```javascript
+class AddOption extends React.Component {
+
+    // Need to setup the constructor because we need to bind handleAddOption.
+    constructor(props) {
+        super(props);
+        this.handleAddOptionChild = this.handleAddOptionChild.bind(this);
+        this.state = {
+            error: undefined
+        }
+    }
+    /*
+     * we keep this handleAddOption method because there are still things
+     * we really should do in the AddOption component. Specifically we
+     * disable the form submission with e.preventDefault() and we pluck
+     * the new value from the e.target.elements.optionButton.value so we
+     * can pass that value up to the parent method.
+     */
+    handleAddOptionChild(e) {
+        e.preventDefault();
+        const option = e.target.elements.optionButton.value.trim();
+
+        const errMsg = this.props.handleAddOption(option);  // CALLS the parent method, passing in the new value.
+        this.setState(() => {
+            return {
+                error: errMsg
+            }
+        });
+        e.target.elements.optionButton.value = '';
+    }
+    render() {
+        return (
+            <div>
+            {this.state.error && <p>{this.state.error}</p>}
+            <form onSubmit={this.handleAddOptionChild}>
+                <input type='text' name="optionButton" />
+                <button>Add Option</button>
+            </form>
+            </div>
+        )
+    }
+}
+```
 ### Video 38 - Summary: Props vs. State
