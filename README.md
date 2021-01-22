@@ -1107,6 +1107,88 @@ can't predict the order. So it's best to do the arrow function signature.
 We are going to redo the visibility toggle app as components. So we are changing playground/build-it-visibile.js
 
 ### Video 36 - Indecision State: Part 1
+In this section we are going to add options as state to the indecision app.
+
+```javascript
+class IndecisionApp extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            options: ['One', 'Two', 'Three']
+        }
+    }
+```
+
+The trick is how to manipulate options. And we have to do it in children of `<IndecisionApp/>`. `<AddOption/>`, the child
+needs to be able to manipulate the state of the parent `<IndecisionApp/>`. options. `<Options/>` also needs to be able to
+manipulate the options in state. Passing state from parent to child is easy.
+
+So to pass information from child to parent we need to pass functions in as props to the child components.
+
+It basically takes four steps:
+
+1. define a method in the parent class to perform the desired operation. In this case, `handleDeleteOptions()`.
+1. bind the method to the class in the constructor `this.handleDeleteOptions = this.handleDeleteOptions.bind(this);`
+1. pass a reference to the new method in the `<Options handleDelete={this.handleDeleteOptions}/>` tag
+1. reference the `this.props.handleDelete` in the `onClick` associated with the Remove all button.
+
+```javascript
+class IndecisionApp extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            options: ['One', 'Two', 'Three']
+        }
+        this.handleDeleteOptions = this.handleDeleteOptions.bind(this);        // *** Binding the new method to the instance
+    }
+
+    // we define this method in the parent component, but
+    // we pass it into the child component <Options> so it
+    // can be called during Remove All.
+    handleDeleteOptions() {                                                   // *** The new method to clear out the options.
+        console.log("handleDeleteOptions");
+        this.setState(() => {
+            return {
+                options: []
+            };
+        });
+    }
+    render() {
+        const title = 'Indecision App';
+        const subtitle = 'Put your life in the hands of a computer.';
+        return (
+            <div>
+                <Header title={title} subtitle={subtitle} />
+                <Action hasOptions={this.state.options.length > 0} />
+                <Options 
+                options={this.state.options}
+                handleDelete={this.handleDeleteOptions}                      // *** pass the new method reference, this.handleDeleteOptions as a propertty
+                />
+                <AddOption />
+            </div>
+        )
+    }
+}
+
+
+class Options extends React.Component {
+    render() {
+        return (
+            <div>
+                <h2>Options</h2>
+                <button onClick={this.props.handleDelete}>Remove All</button>         // *** add a reference to the new Options property to the onClck
+                <ol>
+                    {
+                        this.props.options.map((option) => <Option key={option} optionText={option} />)
+                    }
+                </ol>
+            </div>
+        )
+    }
+}
+```
 
 ### Video 37 - Indecision State: Part 2
 
