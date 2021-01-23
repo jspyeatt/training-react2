@@ -1373,6 +1373,38 @@ const Action = (props) => {
 ```
 
 ### Video 41 - Default Prop Values
+How to handle defaults if a prop isn't passed in.
+
+We are going to set a default for title in `<Header/>` and no default for subtitle.
+
+We do this by adding values to the property `defaultProps` to the component definition.
+```javascript
+const Header = (props) => {
+    return (
+        <div>
+            <h1>{props.title}</h1>
+            {props.subtitle && <h2>{props.subtitle}</h2>}   // conditionally render only if passed in.
+        </div>);
+};
+Header.defaultProps = {
+    title: 'Indecision'
+};
+```
+We can do this for class components as well.
+```javascript
+IndecisionApp.defaultProps {
+   options: []   // initialize our options list to empty
+}
+Then in the definition of the constructor for `IndecisionApp` itself you would do this.
+```javascript
+constructor(props) {
+   this.state = {
+       options: props.options  // props.options is actually defaultProps when no properties are passed in to the jsx tag.
+   }
+}
+```
+So now if I wanted I could pass the options I want to start with in the `<IndecisionApp options={['Starting option']}/>'
+
 
 ### Video 42 - React Dev Tools
 
