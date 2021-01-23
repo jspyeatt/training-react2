@@ -1493,8 +1493,22 @@ handleDeleteOption(optionToRemove) {
 }
 ```
 
-
 ### Video 44 - Lifecycle Methods
+[Lifecycle methods](https://reactjs.org/docs/react-component.html#the-component-lifecycle) fire when a **class component** changes. When it:
+1. component renders
+1. component is removed `componentWillUnmount()`
+1. component changes `componentDidUpdate()`
+1. component gets mounted to the DOM. `componentDidMount()`
+
+The lifecycle methods largely fall into three categories: Mounting, unmounting and updating.
+
+```javascript
+componentDidUpdate(prevProps, prevState) {
+   console.log("componentDidUpdate");
+}
+```
+In the next video we will actually save and fetch data from local storage and use `compoentDidMount()`
+to fetch and `componentDidUpdate()` to save data.
 
 ### Video 45 - Saving and Loading Options Data
 

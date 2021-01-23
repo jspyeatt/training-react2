@@ -11,6 +11,15 @@ class IndecisionApp extends React.Component {
         this.handleDeleteOption = this.handleDeleteOption.bind(this);
     }
 
+    componentDidMount(prevProps, prevState) {
+        console.log("componentDidMount");
+    }
+    componentDidUpdate(prevProps, prevState) {
+        console.log("componentDidUpdate");
+    }
+    componentWillUnmount(prevProps, prevState) {
+        console.log("componentWillUnmount");
+    }
     // we define this method in the parent component, but
     // we pass it into the child component <Options> so it
     // can be called during Remove All.
