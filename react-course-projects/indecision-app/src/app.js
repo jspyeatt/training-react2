@@ -5,23 +5,28 @@ class IndecisionApp extends React.Component {
         this.state = {
             options: props.options
         }
-        this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
+        this.handleDeleteAllOptions = this.handleDeleteAllOptions.bind(this);
         this.handlePick = this.handlePick.bind(this);
         this.handleAddOption = this.handleAddOption.bind(this);
+        this.handleDeleteOption = this.handleDeleteOption.bind(this);
     }
 
     // we define this method in the parent component, but
     // we pass it into the child component <Options> so it
     // can be called during Remove All.
-    handleDeleteOptions() {
-        console.log("handleDeleteOptions");
-        this.setState(() => {
-            return {
-                options: []
-            };
-        });
+    handleDeleteAllOptions() {
+        console.log("handleDeleteAllOptions");
+        this.setState(() => ({options: []}));
     }
 
+    handleDeleteOption(optionToRemove) {
+        console.log("handleDeleteOption", optionToRemove);
+        this.setState((prevState) => ({
+            options: prevState.options.filter((option) => {
+                return optionToRemove != option;
+            })
+        }));
+    }
     handlePick() {
         console.log("handlePick");
         const randomNum = Math.floor(Math.random() * this.state.options.length);
@@ -43,12 +48,7 @@ class IndecisionApp extends React.Component {
         }
 
         // set the new state.
-        this.setState((prevState) => {
-            return {
-                options: prevState.options.concat(option)
-            }
-        });
-        // returns undefined.
+        this.setState((prevState) => ({options: prevState.options.concat(option)}));
     }
     render() {
         const subtitle = 'Put your life in the hands of a computer.';
@@ -61,7 +61,8 @@ class IndecisionApp extends React.Component {
                 />
                 <Options
                     options={this.state.options}
-                    handleDelete={this.handleDeleteOptions}
+                    handleDeleteAll={this.handleDeleteAllOptions}
+                    handleDeleteOption={this.handleDeleteOption}
                 />
                 <AddOption handleAddOption={this.handleAddOption} />
             </div>
@@ -98,19 +99,31 @@ const Options = (props) => {
     return (
         <div>
             <h2>Options</h2>
-            <button onClick={props.handleDelete}>Remove All</button>
-            <ol>
+            <button onClick={props.handleDeleteAll}>Remove All</button>
                 {
-                    props.options.map((option) => <Option key={option} optionText={option} />)
+                    props.options.map((option) => (
+                        <Option 
+                        key={option} 
+                        optionText={option} 
+                        handleDeleteOption={props.handleDeleteOption}
+                        />
+                        ))
                 }
-            </ol>
         </div>
     )
 };
 
 const Option = (props) => {
     return (
-        <li>{props.optionText}</li>
+        <div>{props.optionText}
+        <button 
+        onClick={(e) => {
+            props.handleDeleteOption(props.optionText)
+        }}
+        >
+        remove
+        </button>
+        </div>
     )
 }
 
@@ -136,11 +149,7 @@ class AddOption extends React.Component {
         const option = e.target.elements.optionButton.value.trim();
 
         const errMsg = this.props.handleAddOption(option);  // CALLS the parent method, passing in the new value.
-        this.setState(() => {
-            return {
-                error: errMsg
-            }
-        });
+        this.setState(() => ({error: errMsg}));
         e.target.elements.optionButton.value = '';
     }
     render() {

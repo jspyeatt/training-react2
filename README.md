@@ -1416,6 +1416,83 @@ have access to a special global variable `$r`. So when you highlight a component
 console and enter `$r` and display the entire contents of that component.
 
 ### Video 43 - Removing Individual Options
+First we are going to do the shorthand of the arrow function which deletes all the options in the
+indecision app.
+
+original javascript
+```javascript
+handleDeleteOptions() {
+console.log("handleDeleteOptions");
+this.setState(() => {
+    return {
+        options: []
+    };
+});
+}
+```
+becomes
+```javascript
+handleDeleteOptions() {
+console.log("handleDeleteOptions");
+this.setState(() => ({options: []}));
+}
+```
+We can do the above because we've changed setState to return an object `{options:[]}`. This isn't an
+earth-shattering change, but it does require less lines of code.
+
+Now we are going to add remove button to each item option.
+```javascript
+handleDeleteOption(option) {
+   console.log("handleDeleteOption", option);
+}
+```
+
+New method responsible for taking in option and removing it. The trick is that IndecisionApp, which
+owns the options array, doesn't have direct access to the `<Option>` tag. We do have direct access
+to the `<Options>` tag. So we are going to pass the new method through two levels of chaining. First
+to `<Options>` then to `<Option>`.
+
+The new version of Option starts to look like this:
+```javascript
+const Option = (props) => {
+    return (
+        <div>{props.optionText}
+        <button onClick={props.handleDeleteOption}>remove</button>
+        </div>
+    )
+}
+```
+This won't work right away because we aren't passing in the optionText to the handleDeleteOption() method
+as it needs. We are passing the event object instead. So we need to change this to pass the optionText.
+We create an inline arrow function for onClick.
+```javascript
+const Option = (props) => {
+    return (
+        <div>{props.optionText}
+        <button 
+        onClick={(e) => {                                // inline an event handling version of onClick
+            props.handleDeleteOption(props.optionText)   // passing in the optionText.
+        }}
+        >
+        remove
+        </button>
+        </div>
+    )
+}
+```
+Now we go back into handleDeleteOption for IndecisionApp and use the `filter()` function
+to remove the specific array element.
+```javascript
+handleDeleteOption(optionToRemove) {
+	console.log("handleDeleteOption", optionToRemove);
+	this.setState((prevState) => ({
+	    options: prevState.options.filter((option) => {
+		return optionToRemove != option;
+	    })
+	}));
+}
+```
+
 
 ### Video 44 - Lifecycle Methods
 
