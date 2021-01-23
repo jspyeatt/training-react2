@@ -12,10 +12,26 @@ class IndecisionApp extends React.Component {
     }
 
     componentDidMount(prevProps, prevState) {
-        console.log("componentDidMount");
+
+        const json = localStorage.getItem('options');
+        if (json) {
+            try {
+                const options = JSON.parse(json);
+                console.log("componentDidMount", options);
+                this.setState((prevState) => ({ options: options }))
+            } catch (e) {
+                console.error("Bad data", e);
+            }
+        }
     }
     componentDidUpdate(prevProps, prevState) {
         console.log("componentDidUpdate");
+        // we don't want to save data if the options array is already empty.
+        if (prevState.options.length != this.state.options.length) {
+            const json = JSON.stringify(this.state.options);
+            console.log("save data", json);
+            localStorage.setItem('options', json);
+        }
     }
     componentWillUnmount(prevProps, prevState) {
         console.log("componentWillUnmount");
@@ -25,7 +41,7 @@ class IndecisionApp extends React.Component {
     // can be called during Remove All.
     handleDeleteAllOptions() {
         console.log("handleDeleteAllOptions");
-        this.setState(() => ({options: []}));
+        this.setState(() => ({ options: [] }));
     }
 
     handleDeleteOption(optionToRemove) {
@@ -57,7 +73,7 @@ class IndecisionApp extends React.Component {
         }
 
         // set the new state.
-        this.setState((prevState) => ({options: prevState.options.concat(option)}));
+        this.setState((prevState) => ({ options: prevState.options.concat(option) }));
     }
     render() {
         const subtitle = 'Put your life in the hands of a computer.';
@@ -109,15 +125,16 @@ const Options = (props) => {
         <div>
             <h2>Options</h2>
             <button onClick={props.handleDeleteAll}>Remove All</button>
-                {
-                    props.options.map((option) => (
-                        <Option 
-                        key={option} 
-                        optionText={option} 
+            {props.options.length === 0 && <p>Please add an option to get started.</p>}
+            {
+                props.options.map((option) => (
+                    <Option
+                        key={option}
+                        optionText={option}
                         handleDeleteOption={props.handleDeleteOption}
-                        />
-                        ))
-                }
+                    />
+                ))
+            }
         </div>
     )
 };
@@ -125,12 +142,12 @@ const Options = (props) => {
 const Option = (props) => {
     return (
         <div>{props.optionText}
-        <button 
-        onClick={(e) => {
-            props.handleDeleteOption(props.optionText)
-        }}
-        >
-        remove
+            <button
+                onClick={(e) => {
+                    props.handleDeleteOption(props.optionText)
+                }}
+            >
+                remove
         </button>
         </div>
     )
@@ -145,6 +162,7 @@ class AddOption extends React.Component {
         this.state = {
             error: undefined
         }
+
     }
     /*
      * we keep this handleAddOption method because there are still things
@@ -158,8 +176,10 @@ class AddOption extends React.Component {
         const option = e.target.elements.optionButton.value.trim();
 
         const errMsg = this.props.handleAddOption(option);  // CALLS the parent method, passing in the new value.
-        this.setState(() => ({error: errMsg}));
-        e.target.elements.optionButton.value = '';
+        this.setState(() => ({ error: errMsg }));
+        if (!errMsg) {
+            e.target.elements.optionButton.value = '';
+        }
     }
     render() {
         return (

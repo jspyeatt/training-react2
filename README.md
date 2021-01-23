@@ -1511,6 +1511,49 @@ In the next video we will actually save and fetch data from local storage and us
 to fetch and `componentDidUpdate()` to save data.
 
 ### Video 45 - Saving and Loading Options Data
+We are going to save and update the options to local storage so they are available when the user comes
+back.
+
+#### Basics of Local storage
+Local storage is just a key/value pair which persists between page loads.
+```javascript
+localStorage.setItem('name', 'John');
+localStorage.getItem('name');
+localStorage.removeItem('name');
+```
+ But it only persists string data. So how do we store objects. We use JSON.
+```javascript
+localStorage.setItem('options', JSON.stringify({'name': 'John', age: 58}));
+JSON.parse(localStorage.getItem('options'));
+```
+
+Now let's save some data in indecision app.
+```javascript
+componentDidUpdate(prevProps, prevState) {
+	console.log("componentDidUpdate");
+	// we don't want to save data if the options array is already empty.
+	if (prevState.options.length != this.state.options.length) {
+	    const json = JSON.stringify(this.state.options);
+	    console.log("save data", json);
+	    localStorage.setItem('options', json);
+	}
+}
+```
+And let's recover the data when the app is loaded
+```javascript
+componentDidMount(prevProps, prevState) {
+	const json = localStorage.getItem('options');
+	if (json) {
+	    try {
+		const options = JSON.parse(json);
+		console.log("componentDidMount", options);
+		this.setState((prevState) => ({ options: options }))
+	    } catch (e) {
+		console.error("Bad data", e);
+	    }
+	}
+}
+```
 
 ### Video 46 - Saving and Loading the Count
 
