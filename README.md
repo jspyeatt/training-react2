@@ -1407,6 +1407,13 @@ So now if I wanted I could pass the options I want to start with in the `<Indeci
 
 
 ### Video 42 - React Dev Tools
+You can install a react extension for Chrome or Firefox. When you open the dev tools you will see a new
+tab called '@Components'. Clicking on that tab opens the tool and you can see the actual react components
+and where they are registered on the screen.
+
+One subtle thing available via the dev tool is when you highlight a component in the Component tab you
+have access to a special global variable `$r`. So when you highlight a component you can go to the
+console and enter `$r` and display the entire contents of that component.
 
 ### Video 43 - Removing Individual Options
 
