@@ -1556,5 +1556,50 @@ componentDidMount(prevProps, prevState) {
 ```
 
 ### Video 46 - Saving and Loading the Count
+We are going to use localStorage for the counter app. But we count in numbers, but localStorage
+is in strings.
+```javascript
+let n = '12';
+parseInt(n, 10);   // converts string to int
+parseInt('abc', 10);  // returns NaN
+isNaN(parseInt('abc', 10));   // returns true
+```
+So we need to be defensive about parsing the integer.
 
+```javascript
 
+componentDidMount(prevProps, prevState) {
+
+	const json = localStorage.getItem('count');
+	if (json) {
+	    const newValue = parseInt(json, 10);
+	    if (!isNaN(newValue)) {
+		this.setState(() => {
+		    return { count: newValue };
+		});
+	    }
+	}
+}
+componentDidUpdate(prevProps, prevState) {
+	console.log("componentDidUpdate");
+	if (prevState.count != this.state.count) {
+	    localStorage.setItem('count', this.state.count);
+	}
+}
+```
+## Section 6 - Webpack
+
+### Video 47 - Section Intro: Webpack
+### Video 48 - What is Webpack?
+### Video 49 - Avoid global modules
+### Video 50 - Installing and Configuring Webpack
+### Video 51 - ES6 import/export
+### Video 52 - Default exports
+### Video 53 - Importing npm modules
+### Video 54 - Settgingup babel with webpack
+### Video 55 - One Component Per File
+### Video 56 - Source maps with webpack
+### Video 57 - Webpack dev server
+### Video 58 - ES6 class properties
+
+## Section 7 - Using Third-party component
