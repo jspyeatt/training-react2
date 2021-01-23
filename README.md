@@ -1300,9 +1300,77 @@ class AddOption extends React.Component {
    . Defined in component itself
    . Can be changed by the owner of the state.
 
+## Section 5 - Stateless Functional Components
+
 ### Video 39 - Section Intro: Stateless Functional Component
 
 ### Video 40 - Stateless Functional Component
+This is an alternative to class-based components. It doesn't allow state.
+
+In the indecision app some of the components manage state. We are going to switch out some
+of the components which don't. For example, `<Header/>` doesn't do anything other than render
+what was passed in. Theses types of components are presentation only. They may call other functions
+on `onClick`, but they don't care what happens when that occurs.
+
+In stateless components you are really just defining a function which knows how to render. It only
+renders what is passed to it.
+
+```javascript
+// first stateless component. Note it's upper case.
+const User = () => {
+    return (
+        <div>
+            <p>Name: {props.name}</p>
+            <p>Age: {props.age}</p>
+        </div>
+    )
+}
+ReactDOM.render(<User name='John' age={58}/>, document.getElementById('app'));
+```
+This render() call works because jsx assumes that if you are passing in a lower case tag it must be html.
+But if you are passing in an upper case value, `<User/>`, it must be a component.
+
+Stateless components are much faster to render. They are easier to write. And they are easier to test.
+
+The general rule is that if your class component only has a render() method it can probably be converted
+to a stateless functional component.
+
+Converting a class component to a stateless functional component is pretty easy.
+
+1. create const with same name as class component had
+1. take the contents of the class's `render()` method and make it the inside of the new function created in step 1.
+
+This class component
+```javascript
+class Action extends React.Component {
+
+    render() {
+        return (
+            <div>
+                <button
+                    onClick={this.props.handlePick}
+                    disabled={!this.props.hasOptions}>
+                    What should I do?
+                </button>
+            </div>
+        )
+    }
+}
+```
+becomes this stateless functional component. The only thing you really need to remember is there is no `this` in a functional component.
+```javascript
+const Action = (props) => {
+    return (
+        <div>
+            <button
+                onClick={props.handlePick}    // just remove the this.
+                disabled={!props.hasOptions}> // just remove the this.
+                What should I do?
+            </button>
+        </div>
+    )
+}
+```
 
 ### Video 41 - Default Prop Values
 

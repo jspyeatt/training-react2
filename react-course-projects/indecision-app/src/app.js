@@ -70,55 +70,46 @@ class IndecisionApp extends React.Component {
     }
 }
 
-class Header extends React.Component {
-    render() {
-        return (
-            <div>
-                <h1>{this.props.title}</h1>
-                <h2>{this.props.subtitle}</h2>
-            </div>);
-    }
+const Header = (props) => {
+    return (
+        <div>
+            <h1>{props.title}</h1>
+            <h2>{props.subtitle}</h2>
+        </div>);
+};
+
+const Action = (props) => {
+    return (
+        <div>
+            <button
+                onClick={props.handlePick}
+                disabled={!props.hasOptions}>
+                What should I do?
+            </button>
+        </div>
+    )
+};
+
+const Options = (props) => {
+    return (
+        <div>
+            <h2>Options</h2>
+            <button onClick={props.handleDelete}>Remove All</button>
+            <ol>
+                {
+                    props.options.map((option) => <Option key={option} optionText={option} />)
+                }
+            </ol>
+        </div>
+    )
+};
+
+const Option = (props) => {
+    return (
+        <li>{props.optionText}</li>
+    )
 }
 
-class Action extends React.Component {
-
-    render() {
-        return (
-            <div>
-                <button
-                    onClick={this.props.handlePick}
-                    disabled={!this.props.hasOptions}>
-                    What should I do?
-                </button>
-            </div>
-        )
-    }
-}
-
-
-class Options extends React.Component {
-    render() {
-        return (
-            <div>
-                <h2>Options</h2>
-                <button onClick={this.props.handleDelete}>Remove All</button>
-                <ol>
-                    {
-                        this.props.options.map((option) => <Option key={option} optionText={option} />)
-                    }
-                </ol>
-            </div>
-        )
-    }
-}
-class Option extends React.Component {
-    render() {
-        const v = this.props.optionText;
-        return (
-            <li>{v}</li>
-        )
-    }
-}
 class AddOption extends React.Component {
 
     // Need to setup the constructor because we need to bind handleAddOption.
@@ -151,11 +142,11 @@ class AddOption extends React.Component {
     render() {
         return (
             <div>
-            {this.state.error && <p>{this.state.error}</p>}
-            <form onSubmit={this.handleAddOptionChild}>
-                <input type='text' name="optionButton" />
-                <button>Add Option</button>
-            </form>
+                {this.state.error && <p>{this.state.error}</p>}
+                <form onSubmit={this.handleAddOptionChild}>
+                    <input type='text' name="optionButton" />
+                    <button>Add Option</button>
+                </form>
             </div>
         )
     }
