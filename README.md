@@ -1590,6 +1590,11 @@ componentDidUpdate(prevProps, prevState) {
 ## Section 6 - Webpack
 
 ### Video 47 - Section Intro: Webpack
+Webpack is an asset bundler. Combines all of the assets from our application with all of the third party libraries our app needs.
+
+1. allows us to take advantage of 3rd party libraries
+1. break our own app into mulitple files. Each component is in its own file.
+
 ### Video 48 - What is Webpack?
 ### Video 49 - Avoid global modules
 ### Video 50 - Installing and Configuring Webpack
