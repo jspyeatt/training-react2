@@ -1596,6 +1596,22 @@ Webpack is an asset bundler. Combines all of the assets from our application wit
 1. break our own app into mulitple files. Each component is in its own file.
 
 ### Video 48 - What is Webpack?
+
+Allows us to organize our javascript source. webpack will bundle that into one .js file. So we will only ever have to have one `<script>` tags.
+
+`gulp` and `grunt` are other app bundling tools. webpack does it different. Webpack breaks up all of our files into separate sections which are then
+referenced with es6.
+
+We will also be able to install dependencies via yarn and npm using webpack.
+
+Directory structure
+
+1. public/ - public static assets like images and css
+1. src/ - our javascript
+1. node_modules/ - third party javascript
+
+When webpack runs it will create public/bundle.js which contains everything javascript.
+
 ### Video 49 - Avoid global modules
 ### Video 50 - Installing and Configuring Webpack
 ### Video 51 - ES6 import/export
