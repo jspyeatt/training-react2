@@ -1613,6 +1613,60 @@ Directory structure
 When webpack runs it will create public/bundle.js which contains everything javascript.
 
 ### Video 49 - Avoid global modules
+
+Generally a bad idea to install global modules. We've installed two globals, babel-cli and live-server.
+
+Problem 1 with global modules: our package.json file doesn't have a reference to babel or live-server for our project. So technically you don't know what the dependencies are.
+
+Problem 2: We've installed it globally, so any other applications you may be writing would need to use the same versions.
+
+Problem 3: You have to type in the entire command in your terminal each time. It would be nice if you had an alias.
+
+Removing our global modules and reinstalling them as local modules.
+
+```bash
+yarn global remove babel-cli live-server
+```
+or
+```bash
+npm uninstall -g babel-cli live-server
+```
+
+Then
+```bash
+yarn add live-server babel-cli@6.24.1
+```
+Now instead of installing globally, they end up in the `node_modules` directory and they are referenced in package.json. But now those commands are not available on the
+command line. So we need to add them as script aliases in package.json.
+
+We add a `scripts` object to package.json with a keyword and the command to run.
+
+```javascript
+{
+  "name": "indecision-app",
+  "version": "1.0.0",
+  "description": "Indecision App",
+  "main": "index.js",
+  "author": "John Pyeatt",
+  "license": "MIT",
+  "scripts" : {
+    "serve": "live-server public/",
+    "build": "babel src/app.js --out-file=public/scripts/app.js --presets=env,react --watch"
+  },
+  "dependencies": {
+    "babel-cli": "6.24.1",
+    "babel-preset-env": "1.5.2",
+    "babel-preset-react": "6.24.1",
+    "live-server": "^1.2.1"
+  }
+}
+```
+```bash
+yarn run serve   # runs the script aliased as  serve
+yarn run build   # runs the script aliased as  build
+```
+
+
 ### Video 50 - Installing and Configuring Webpack
 ### Video 51 - ES6 import/export
 ### Video 52 - Default exports
