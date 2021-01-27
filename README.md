@@ -1836,6 +1836,33 @@ export default subtract;       // this declaration must be after the definition 
 ```
 
 ### Video 53 - Importing npm modules
+We are going to import the npm module, validator. There are three steps.
+
+Install - Google `npm validator`. Says how to install it `yarn add validator@8.0.0`.
+Import - the trick is to figure out what the validator module exports and thus makes available to you.
+
+
+```javascript
+import validator from 'validator';  // note we don't specify a relative file path like we do for our own modules. Webpack will find it.
+                                    // in this case we are also just importing the default (validator).
+
+const em = 'jspyeatt@gmail.com';
+console.log(em, validator.isEmail(em));
+```
+So now we are going to import react.
+```bash
+yarn add react@16.0.0 react-dom@16.0.0
+```
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+const template = <p>testing</p>;
+ReactDOM.render(template, document.getElementById('app'));
+```
+The above will actually fail to load because we are no longer using babel to load our jsx. To get this working we need to get jsx processed
+with webpack. That's the next video.
+
 ### Video 54 - Setting up babel with webpack
 ### Video 55 - One Component Per File
 ### Video 56 - Source maps with webpack
