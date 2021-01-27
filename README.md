@@ -1802,8 +1802,41 @@ console.log(add(4, 3));
 
 
 ### Video 52 - Default exports
+With default exports, you can only define one. So we are going to define `subtract` as a default export.
+
+```javascript
+const square = (x) => x * x;
+const add = (a,b) => a+b;
+const subtract = (a,b) => a-b;
+
+export {square, add, subtract as default}
+```
+
+We can't add subtract to the list of named exports in our app.js because subtract isn't a named export.
+```javascript
+import subtract, { square, add } from './utils.js';  // note the subtract is before the named exports.
+console.log(square(4));
+console.log(add(4, 3));
+console.log(subtract(4, 3));
+```
+
+Default export is special, if you specify an argument after the `import` you can name it anything you want, it will
+still import the function subtract, just with a different name. So for example, this is fine.
+```javascript
+import anythingYouWant, { square, add } from './utils.js';
+console.log(square(4));
+console.log(add(4, 3));
+console.log(anythingYouWant(4, 3));  // basically an alias for subtract.
+```
+
+There is an alternative way to set up the export of the default.
+```javascript
+const subtract = (a,b) => a-b;
+export default subtract;       // this declaration must be after the definition itself.
+```
+
 ### Video 53 - Importing npm modules
-### Video 54 - Settging up babel with webpack
+### Video 54 - Setting up babel with webpack
 ### Video 55 - One Component Per File
 ### Video 56 - Source maps with webpack
 ### Video 57 - Webpack dev server
