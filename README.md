@@ -1864,6 +1864,40 @@ The above will actually fail to load because we are no longer using babel to loa
 with webpack. That's the next video.
 
 ### Video 54 - Setting up babel with webpack
+We need to implement a loader. A loader tells webpack how to process a given file.
+```bash
+yarn add babel-core@6.25.0  # allows you to run babel inside of tools
+yarn add babel-loader@7.1.1
+
+Now we need to do more advanced definitions in [webpack modules](https://webpack.js.org/concepts/modules/). We are going to define module.rules
+to tell it what pattern of file names to process.
+
+```javascript
+module.exports = {
+    entry: './src/app.js',
+    output: {
+        path: path.join(__dirname, 'public'),
+        filename: 'bundle.js'
+    },
+    module: {
+        rules: [{
+            loader: 'babel-loader',       // what loader to use
+            test: /\.js$/,                // what filename patterns to match
+            exclude: /node_modules/       // what directories to exclude
+        }]
+    }
+};
+```
+Babel does nothing by default and we have to tell it to use presets for env and react. So to do that we create a file called `.babelrc` in the root
+with the following contents.
+
+```javascript
+{
+    "presets": ["env", "react"]
+}
+```
+If everything is successful, the busted version of `app.js` at the end of the previous video should now work.
+
 ### Video 55 - One Component Per File
 ### Video 56 - Source maps with webpack
 ### Video 57 - Webpack dev server
