@@ -1738,9 +1738,72 @@ becomes
 
 
 ### Video 51 - ES6 import/export
+
+Used to break up the app into multiple files.
+
+Two parts to it. Load files you wrote and load third party files.
+
+We are going to create our own additional file, utils.js. It's not picked up by default, because it isn't the entry point to the app.
+What we need to do is bring it into the application. So we import it into app.js
+
+app.js
+```javascript
+import './utils.js'
+```
+When you look at the output of `yarn run build` you will see that it now pulls in utils.js
+```bash
+Time: 33ms
+    Asset     Size  Chunks             Chunk Names
+bundle.js  2.94 kB       0  [emitted]  main
+   [0] ./src/app.js 47 bytes {0} [built]
+   [1] ./src/utils.js 35 bytes {0} [built]
+
+```
+
+Create a function in utils.js
+```javascript
+console.log("utils.js is running");
+
+const square = (x) => {x * x};
+```
+Then in app.js we add
+```javascript
+import './utils.js';
+console.log("RUNNING!!!");
+console.log("square=", square(4));
+```
+When you run this it will thrown an error saying `square` doesn't exist. That's because the variables defined in utils.js are locally-scoped.
+
+So we need to export square from utils.js. You can export either named, or default exports.
+
+Here is how you define a named export.
+```javascript
+
+export {
+    square, add
+}
+```
+Alternatively, here is the exact same exports but we do them individually during the function definition.
+```javascript
+console.log("utils.js is running");
+
+export const square = (x) => x * x;
+export const add = (a,b) => a+b;
+```
+
+Finally you have to import it into app.js
+```javascript
+import { square, add } from './utils.js';
+
+console.log("RUNNING!!!");
+console.log(square(4));
+console.log(add(4, 3));
+```
+
+
 ### Video 52 - Default exports
 ### Video 53 - Importing npm modules
-### Video 54 - Settgingup babel with webpack
+### Video 54 - Settging up babel with webpack
 ### Video 55 - One Component Per File
 ### Video 56 - Source maps with webpack
 ### Video 57 - Webpack dev server
