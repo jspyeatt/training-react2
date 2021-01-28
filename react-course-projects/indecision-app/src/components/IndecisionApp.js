@@ -6,17 +6,49 @@ import Header from './Header';
 import Action from './Action';
 import Options from './Options';
 export default class IndecisionApp extends React.Component {
+    state = {
+        options: []
+    };
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            options: []
+    // we define this method in the parent component, but
+    // we pass it into the child component <Options> so it
+    // can be called during Remove All.
+    handleDeleteAllOptions = () => {
+        console.log("handleDeleteAllOptions");
+        this.setState(() => ({ options: [] }));
+    };
+
+    handleDeleteOption = (optionToRemove) => {
+        console.log("handleDeleteOption", optionToRemove);
+        this.setState((prevState) => ({
+            options: prevState.options.filter((option) => {
+                return optionToRemove != option;
+            })
+        }));
+    };
+    handlePick = () => {
+        console.log("handlePick");
+        const randomNum = Math.floor(Math.random() * this.state.options.length);
+        const selectedOption = this.state.options[randomNum];
+        alert(selectedOption);
+    };
+    handleAddOption = (option) => {
+        console.log("IndecisionApp: handleAddOption " + option);
+
+        // In this case we are going to return an error string if
+        // they didn't enter anything or in the else, if there is a 
+        // duplicate. 
+        // the normal behavior for this method would be to return undefined.
+        // if a string is returned, there must be an error.
+        if (!option) {
+            return 'Error valid value!!';
+        } else if (this.state.options.indexOf(option) > -1) {
+            return 'The value ' + option + ' already exists.';
         }
-        this.handleDeleteAllOptions = this.handleDeleteAllOptions.bind(this);
-        this.handlePick = this.handlePick.bind(this);
-        this.handleAddOption = this.handleAddOption.bind(this);
-        this.handleDeleteOption = this.handleDeleteOption.bind(this);
-    }
+
+        // set the new state.
+        this.setState((prevState) => ({ options: prevState.options.concat(option) }));
+    };
 
     componentDidMount(prevProps, prevState) {
 
@@ -42,45 +74,6 @@ export default class IndecisionApp extends React.Component {
     }
     componentWillUnmount(prevProps, prevState) {
         console.log("componentWillUnmount");
-    }
-    // we define this method in the parent component, but
-    // we pass it into the child component <Options> so it
-    // can be called during Remove All.
-    handleDeleteAllOptions() {
-        console.log("handleDeleteAllOptions");
-        this.setState(() => ({ options: [] }));
-    }
-
-    handleDeleteOption(optionToRemove) {
-        console.log("handleDeleteOption", optionToRemove);
-        this.setState((prevState) => ({
-            options: prevState.options.filter((option) => {
-                return optionToRemove != option;
-            })
-        }));
-    }
-    handlePick() {
-        console.log("handlePick");
-        const randomNum = Math.floor(Math.random() * this.state.options.length);
-        const selectedOption = this.state.options[randomNum];
-        alert(selectedOption);
-    }
-    handleAddOption(option) {
-        console.log("IndecisionApp: handleAddOption " + option);
-
-        // In this case we are going to return an error string if
-        // they didn't enter anything or in the else, if there is a 
-        // duplicate. 
-        // the normal behavior for this method would be to return undefined.
-        // if a string is returned, there must be an error.
-        if (!option) {
-            return 'Error valid value!!';
-        } else if (this.state.options.indexOf(option) > -1) {
-            return 'The value ' + option + ' already exists.';
-        }
-
-        // set the new state.
-        this.setState((prevState) => ({ options: prevState.options.concat(option) }));
     }
     render() {
         const subtitle = 'Put your life in the hands of a computer.';

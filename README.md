@@ -1987,5 +1987,75 @@ yarn run dev-server
 Another advantage of webpack dev server is the bundle.js file isn't served from the filesystem anymore. It's served from memory. So it's quicker.
 
 ### Video 58 - ES6 class properties
+This is a new syntax which helps get rid of the constructor method and method binding. We are going to use a [babel plugin](https://babeljs.io/docs/en/plugins)
+to do that. In the experimental presets. We are going to use the transform-class-properties.
+
+```bash
+yarn add babel-plugin-transform-class-properties@6.24.1
+```
+With new class properties we don't have to use `this.` anymore. Nor do we have to bind methods.
+```javascript
+class OldSyntax {
+    constructor() {
+        this.name = 'Mike';
+        this.age = 58;
+        this.getGreeting = this.getGreeting.bind(this);
+    }
+    getGreeting() {
+        return `Hello, I'm ${this.name}.`;
+    }
+}
+const oldSyntax = new OldSyntax();
+console.log(oldSyntax);
+
+// ----
+class NewSyntax {
+    name = 'Jen';
+    age = 24;
+    getGreeting = () => {                    // no binding to 'this' needed. NOTE it is an arrow function.
+        return `Hello, I'm ${this.name}.`;
+    };
+}
+const newSyntax = new NewSyntax();
+console.log(newSyntax);
+```
+Now we will update AddOption.js. I'm just going to put before and after snippets.
+
+Before
+```javascript
+export default class AddOption extends React.Component {
+
+    // Need to setup the constructor because we need to bind handleAddOption.
+    constructor(props) {
+        super(props);
+        this.handleAddOptionChild = this.handleAddOptionChild.bind(this);
+        this.state = {
+            error: undefined
+        }
+
+    }
+```
+After
+```javascript
+export default class AddOption extends React.Component {
+        state = {
+            error: undefined
+        }
+        handleAddOptionChild = (e) => {
+            e.preventDefault();
+            const option = e.target.elements.optionButton.value.trim();
+            const errMsg = this.props.handleAddOption(option);  // CALLS the parent method, passing in the new value.
+            this.setState(() => ({ error: errMsg }));
+            if (!errMsg) {
+                e.target.elements.optionButton.value = '';
+            }
+        }
+```
+This works great for class properties and event handlers.
 
 ## Section 7 - Using Third-party component
+### Video 59 - Section intro
+### Video 60 - Passing Children to Component
+### Video 61 - Setting up React-Modal
+### Video 62 - Bonus: Refactoring other stateless functional components
+
