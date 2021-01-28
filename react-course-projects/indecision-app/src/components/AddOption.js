@@ -20,7 +20,6 @@ export default class AddOption extends React.Component {
     handleAddOptionChild(e) {
         e.preventDefault();
         const option = e.target.elements.optionButton.value.trim();
-
         const errMsg = this.props.handleAddOption(option);  // CALLS the parent method, passing in the new value.
         this.setState(() => ({ error: errMsg }));
         if (!errMsg) {

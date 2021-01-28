@@ -1950,6 +1950,15 @@ import Option from './Option';
 ```
 
 ### Video 56 - Source maps with webpack
+A source map allows you to map your source code to the resulting bundle.js which is very verbose and quite optimized. So it's not easy to follow
+without a source map in webpack.config.js. We are going to be adding a [devtool](https://webpack.js.org/configuration/devtool/) from webpack.
+For our stuff we are going to use `cheap-module-eval-source-map`.
+
+```javascript
+devtool: 'cheap-module-eval-source-map'
+```
+Then restart `yarn run build`. Now if my code throws an exception I'll get the accurate line number and file of the problem.
+
 ### Video 57 - Webpack dev server
 ### Video 58 - ES6 class properties
 
