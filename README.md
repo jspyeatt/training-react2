@@ -1899,6 +1899,56 @@ with the following contents.
 If everything is successful, the busted version of `app.js` at the end of the previous video should now work.
 
 ### Video 55 - One Component Per File
+Going to take all of app.js and break it out into files.
+
+Create a `components` directory off of `src`. 
+
+When you create a file for a component you normally give it the same name as the compoent including the case. This isn't required,
+but it is a good rule.
+
+So you move the entire component class into the new file (components/AddOption.js). But that isn't enough. We still need to import
+React and also export the component so other files can reference it.
+
+```javascript
+import React from 'react';  // rignt at the top of the file.
+
+export default class AddOption extends React.Component {
+ // commented out the rest for brevity
+}
+```
+Then in the indecision app we would import it.
+```javascript
+import AddOption from './components/AddOption';  // don't have to include the .js
+```
+So AddOption is a class component. `<Option>` is a stateless function and has to be exported differently because you can't export
+it inline like you can for class components. So after Option has been moved to its own file you need to do it one of two ways:
+```javascript
+import React from 'react';
+
+export default const Option = (props) => {} // won't work 
+
+// option 1
+
+// leave the original definition alone.
+const Option = (props) => {}
+// then at the bottom
+
+export default as Option;
+
+// option 2
+export default (props) {}  // but this has an implication. The problem is that if you use the react developer tool to open up the components
+                           // instead of seeing the component name Option. You will just see Unknown. So, less helpful.
+
+```
+So option 1 is preferred.
+
+The `<Options>` component needs a little more work because we need to move the `import Option` from app.js into Options.js because that's
+the component which really needs it. Because the Options and Option components are now in the same folder when we import Option in the Options
+component we don't need the leading `./components` reference. So our import looks like this inside of Options.js
+```javascript
+import Option from './Option';
+```
+
 ### Video 56 - Source maps with webpack
 ### Video 57 - Webpack dev server
 ### Video 58 - ES6 class properties
