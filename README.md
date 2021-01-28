@@ -1960,6 +1960,32 @@ devtool: 'cheap-module-eval-source-map'
 Then restart `yarn run build`. Now if my code throws an exception I'll get the accurate line number and file of the problem.
 
 ### Video 57 - Webpack dev server
+[webpack dev server](https://webpack.js.org/configuration/dev-server/) has nice features live-server doesn't have. 
+
+```bash
+yarn add webpack-dev-server@2.5.1
+```
+Then in webpack.config.js
+```javascript
+    devServer: {
+        contentBase: path.join(__dirname, 'public')
+    }
+```
+Finally we are going to modify `scripts` in package.json by removing the serve command for live-server and using webpack dev server instead.
+
+```javascript
+  "scripts": {
+    "serve": "live-server public/",
+    "build": "webpack",
+    "dev-server": "webpack-dev-server"
+  },
+```
+We no longer need both `yarn run build` and `yarn run serve` both running. We can do both with dev-server.
+```bash
+yarn run dev-server
+```
+Another advantage of webpack dev server is the bundle.js file isn't served from the filesystem anymore. It's served from memory. So it's quicker.
+
 ### Video 58 - ES6 class properties
 
 ## Section 7 - Using Third-party component
