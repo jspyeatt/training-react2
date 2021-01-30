@@ -2114,8 +2114,95 @@ ReactDOM.render((
     </Layout>), document.getElementById('app'));
 ```
 
-
-
 ### Video 61 - Setting up React-Modal
+This section we are going to replace the javascript alert with the [react modal](https://github.com/reactjs/react-modal).
+Example from the documentation.
+```javascript
+<Modal
+  isOpen={modalIsOpen}
+  onAfterOpen={afterOpenModal}
+  onRequestClose={closeModal}
+  style={customStyles}
+  contentLabel="Example Modal">
+My content
+</Modal>
+```
+```bash
+yarn add react-modal@2.2.2
+yarn run dev-server
+```
+Create a new component `OptionModal`.
+```javascript
+import React from 'react';
+import Modal from 'react-modal';
+
+const OptionModal = () => {
+    return (
+        <div>
+        some text
+        </div>
+    )
+};
+
+export default OptionModal;
+```
+Then add `<OptionModal>` to the IndecisionApp render().
+
+Now we are going to swap in the React modal tag in our OptionModal tag.
+
+Inside the `<OptionModal>` we need to define a few properties, most importantly, isOpen. To manage this we have to pass in 
+props to OptionModal so we know whether to display the modal or not. Then we have to add a new state to Indecision app called
+`selectedOption` to indicate whether the user has asked for an option answer. Finally we need to add a mechanism to 
+close the modal. To do that we need to define a method in IndecisionApp which is passed down to the OptionModal to tell
+it what to do to close and clear selectedOptions.
+
+There's a lot to change here. I'm just showing the snippets that matter.
+
+IndecisionApp
+```javascript
+    state = {
+        options: [],
+        selectedOption: undefined   // new state
+    };
+
+    // new handler to clear out when user closes modal.
+    handleClearSelectedOption = () => {
+        console.log("handleClearSelectedOption");
+        this.setState(() => ({selectedOption: undefined}));
+    }
+
+// two new arguments to OptionModal.
+render() {
+        const subtitle = 'Put your life in the hands of a computer.';
+        return (
+            <div>
+                <OptionModal 
+                selectedOption={this.state.selectedOption}
+                clearFunction={this.handleClearSelectedOption}/>
+            </div>
+        )
+    }
+
+```
+
+OptionModal
+```javascript
+const OptionModal = (props) => (
+    <Modal
+        isOpen={!!props.selectedOption}
+        contentLabel="selected result"
+        onRequestClose={props.clearFunction}
+    >
+        <h2>Selected option</h2>
+        {props.selectedOption && <h3>{props.selectedOption}</h3>}   // conditionally add selected option to display
+        <button
+            onClick={props.clearFunction}>OK</button>               // onClick, call IndecisionApp handleClearSelectedOption
+    </Modal>
+);
+```
+
+One last thing on modal. `onRequestClose` takes a function and calls it when the user tries to close the modal. Either
+via ESC or OK key. So we are going to call the new handleClearSelectedFunction for both.
+
 ### Video 62 - Bonus: Refactoring other stateless functional components
 
