@@ -2205,4 +2205,20 @@ One last thing on modal. `onRequestClose` takes a function and calls it when the
 via ESC or OK key. So we are going to call the new handleClearSelectedFunction for both.
 
 ### Video 62 - Bonus: Refactoring other stateless functional components
+We are going to clean up the stateless components so the render doesn't specifically have a return. We update Action, Header,
+Option and Options.
+
+## Section 8 - Styling React
+### Video 63 - Section Intro
+### Video 64 - Setting up Webpack with scss
+### Video 65 - Architecture and Header Styles
+### Video 66 - Reset that $#!*
+### Video 67 - Theaming with Variables
+### Video 68 - Big Button and Options List
+### Video 69 - Styling the Options List
+### Video 70 - Styling Option Item
+### Video 71 - Styling React Modal
+### Video 72 - Mobile Considerations
+### Video 73 - Bonus Favicon
+## Section 9 - React-Router
 
