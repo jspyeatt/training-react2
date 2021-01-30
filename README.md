@@ -2056,6 +2056,66 @@ This works great for class properties and event handlers.
 ## Section 7 - Using Third-party component
 ### Video 59 - Section intro
 ### Video 60 - Passing Children to Component
+
+The built-in `children` prop. In this tutorial we are going to use children to may a layout template. This is a template will have a header
+and footer which is standard and the middle with be the dynamic elements per page.
+```javascript
+const Layout = () => {
+    return (
+        <div>
+        <p>header</p>
+        <p>footer</p>
+        </div>
+    );
+}
+ReactDOM.render(<Layout />, document.getElementById('app'));
+```
+So now I want to pass in the middle, dynamic JSX into layout and have it rendered. How do we do that?
+
+One way to do that would be to pass the content into the layout template
+```javascript
+const Layout = (props) => {
+    return (
+        <div>
+        <p>header</p>
+        {props.content}
+        <p>footer</p>
+        </div>
+    );
+}
+const template = (
+    <div>
+    <h1>Page title</h1>
+    <p>This is my page.</p>
+    </div>
+)
+ReactDOM.render(<Layout content={template}/>, document.getElementById('app'));
+```
+But there's a better way to pass jsx into components. You can just put the jsx between opening and closing `<Layout>` tags as follows
+and reference it as props.children.
+
+```javascript
+const Layout = (props) => {
+    return (
+        <div>
+            <p>header</p>
+            {props.children}
+            <p>footer</p>
+        </div>
+    );
+}
+
+ReactDOM.render((
+    <Layout>
+        <div>
+            <h1>Page title</h1>
+            <p>This is my page.</p>
+        </div>
+    </Layout>), document.getElementById('app'));
+```
+
+
+
 ### Video 61 - Setting up React-Modal
 ### Video 62 - Bonus: Refactoring other stateless functional components
 
