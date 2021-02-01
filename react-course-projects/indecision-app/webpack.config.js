@@ -10,6 +10,15 @@ module.exports = {
             loader: 'babel-loader',
             test: /\.js$/,
             exclude: /node_modules/
+        }, {
+            test: /\.scss$/,
+            use: [
+                // creates 'style' nodes from js strings
+                'style-loader',
+                // translates css into commonjs
+                'css-loader',
+                // compiles sass to css
+                'sass-loader']
         }]
     },
     devtool: 'cheap-module-eval-source-map',

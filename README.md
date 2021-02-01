@@ -2211,6 +2211,51 @@ Option and Options.
 ## Section 8 - Styling React
 ### Video 63 - Section Intro
 ### Video 64 - Setting up Webpack with scss
+SCSS is a CSS pre-processor. Adds supports for variables and mix-ins. 
+
+```bash
+mkdir -p src/styles
+```
+We need to add a rule to webpack.config.js to allow for scss processor. We need to use the [loader for SCSS](https://www.npmjs.com/package/css-loader). We are also going to add [style-loader](https://www.npmjs.com/package/style-loader) which adds the css to the
+DOM by adding the `<style>` tag.
+
+
+```bash
+yarn add style-loader@0.18.2 css-loader@0.28.4
+```
+Then in webpack.config.js
+```javascript
+    module: {
+        rules: [{
+            loader: 'babel-loader',
+            test: /\.js$/,
+            exclude: /node_modules/
+        }, {
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader']
+        }]
+    }
+```
+Then in app.js add
+```javascript
+import './styles/styles.css';   // this will embed the styles.css file in the dom.
+```
+Now we are going to include [scss](sass-lang.com/guide) to learn about sass/scss variables. sass and scss are similarly 
+processed, but the syntax is slightly different. We are going to use scss.
+
+We need to include a new loader to compile scss to css.
+```bash
+yarn add sass-loader@8.0.2
+npm install node-sass  ## couldn't get node-sass installed with yarn
+```
+We are also going to change the name of the styles.css to styles.scss and add a variable.
+```css
+$brand-color: blue;
+* {
+    color: $brand-color;
+}
+```
+
 ### Video 65 - Architecture and Header Styles
 ### Video 66 - Reset that $#!*
 ### Video 67 - Theaming with Variables
