@@ -2257,6 +2257,80 @@ $brand-color: blue;
 ```
 
 ### Video 65 - Architecture and Header Styles
+We are going to break up scss files just as was done for the react components.
+
+```bash
+mkdir -p src/styles/base # used to store global style settings. 
+```
+In that directory create the file `_base.scss`. This is a partial file which
+is why it starts with underscore.
+
+```css
+body {
+    font-family: Helvetica, Arial, sans-serif;
+}
+```
+Then in the original styles.scss we just do an import instead of definitions 
+leaving off the _ and the .scss extension.
+```css
+@import './base/base';
+```
+
+Now we will talk about font sizing. We are going to use rem instead of font
+sizes. It works better for availability. Here are some examples.
+```css
+h1 {
+   font-size: 1rem;
+}
+```
+1rem = 16 pixels. Which is slightly difficult to work with from a math standpoint.
+So what we do is define a global setting in the css `html` selector to map
+1rem to 10 pixels instead.
+```css
+html {
+   font-size: 62.5%;
+}
+```
+Now if you define something with 2.4rem, that equates to 24 pixels under normal circumstances.
+
+Now we are going to start creating separate scss files for each component
+```bash
+mkdir -p src/styles/components
+```
+Then add a _header.scss file where we will keep all the display presentation
+for the Header component.
+
+```css
+.header {
+    background: #20222b;
+    color: white;
+    margin-bottom: 4.8rem;
+    padding: 1.6rem 0;
+}
+```
+The `.header` selector above defines a class. So we have to add that argument
+to the `className=` for the header jsx file. So in Header.js just add the
+`className=header` to the parent `<div>`.
+
+We could nest the `h1` selector inside the `.header` definition. But that can
+get messy quickly. So we are going to use something called Block-Element-Modifier (BEM). 
+
+```css
+.header {
+    background: #20222b;
+    color: white;
+    margin-bottom: 4.8rem;
+    padding: 1.6rem 0;
+}
+
+.header__title {
+    font-size: 3.2rem;
+    margin: 0;
+}
+```
+Then the `<h1>` for the Header.js file we put the className="header__title".
+
+
 ### Video 66 - Reset that $#!*
 ### Video 67 - Theaming with Variables
 ### Video 68 - Big Button and Options List
