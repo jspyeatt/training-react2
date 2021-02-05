@@ -1,0 +1,5 @@
+.container {
+    max-width: 60rem; // fixes the max width no matter the window size.
+    margin: 0 auto; // centers on left and right by using auto
+    padding: 0 $m-size; // puts a little padding for this container on the right and left
+}

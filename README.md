@@ -2335,7 +2335,7 @@ Then the `<h1>` for the Header.js file we put the className="header__title".
 This section attempts to handle style differences between browsers. So we
 are going to add resets. There are libraries which do this. We are going to
 use [normalize.css](https://necolas.github.io.normalize.css/).
-
+me
 ```bash
 yarn add normalize.css@7.0.0
 ```
@@ -2352,7 +2352,34 @@ But now we have to change webpack.config.js so it also processes .css files
 and not just scss. So we change the test of the rule from `/\.scss$/` to
 `/\.s?css$/`.
 
-### Video 67 - Theaming with Variables
+### Video 67 - Theming with Variables
+In this section we are going to create a settings file which will contain
+many of what would normally be referred to as global constants. For things like
+colors and font sizes. `src/stiles/base/_settings.scss` will just define variables for themes.
+
+```css
+// colors
+$off-black: #20222b;
+$off-white: #a5afd7;
+
+$dark-blue: #333745;
+
+// font sizes
+$m-size: 1.6rem;
+$l-size: 3.2rem;
+$xl-size: 4.8rem;
+```
+
+Next we are going to deal with container settings in `_container.scss`. We
+are going to center the content and add padding.
+
+```css
+.container {
+    max-width: 60rem; // fixes the max width no matter the window size.
+    margin: 0 auto; // centers on left and right by using auto
+    padding: 0 $m-size; // puts a little padding for this container on the right and left
+}
+```
 ### Video 68 - Big Button and Options List
 ### Video 69 - Styling the Options List
 ### Video 70 - Styling Option Item
