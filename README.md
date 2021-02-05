@@ -2381,6 +2381,66 @@ are going to center the content and add padding.
 }
 ```
 ### Video 68 - Big Button and Options List
+We are going to make the main decision button purple and do a little styling
+of the button as .big-button in _button.scss. 
+```css
+.big-button {
+    background: $purple;
+    border: none;
+    border-bottom: .6rem solid darken($purple, 10%);
+    color: white;
+    font-weight: bold;
+    font-size: $l-size;
+    width: 100%;
+    margin-bottom: $xl-size;
+    padding: 2.4rem;
+}
+```
+The border arguments above are to give it a bit of a 3d effect on the bottom.
+The `darken()` function is one of the sass functions available with the distribution.
+You can see a list of [all the functions](https://sass-lang.com/documentation) modules.
+
+Then we are going to use the `disabled` pseudo-class to change the display
+a bit when the button is disabled.
+```css
+.big-button:disabled {
+    opacity: .5;
+}
+```
+We're also going to change the cursor appearance when over a button is clickable.
+So in base.scss below defines a pointer (the hand) when something is enabled and
+the arrow (default) when it's not.
+```css
+button {
+    cursor: pointer;
+}
+button:disabled {
+    cursor: default;
+}
+```
+We can generalize several other buttons not the What should I do button. So we'll
+add these to button.scss.
+```scss
+// general button stuff class
+.button {
+    background: $purple;
+    border: none;
+    border-bottom: .3rem solid darken($purple, 10%);
+    color: white;
+    font-weight: 500;
+    padding: $s-size;
+}
+// this is a modifier. Hence the -- instead of the __ which is for elements. This is all just a convention.
+.button--link {
+    background: none;
+    border: none;
+    color: $off-white;
+    padding: 0;
+}
+```
+Then wherever we want to use buttons as links we add `className="button button--link"` as we do in the Options.js and Option.js files.
+
+
 ### Video 69 - Styling the Options List
 ### Video 70 - Styling Option Item
 ### Video 71 - Styling React Modal
