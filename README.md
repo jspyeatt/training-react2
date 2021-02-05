@@ -2332,6 +2332,26 @@ Then the `<h1>` for the Header.js file we put the className="header__title".
 
 
 ### Video 66 - Reset that $#!*
+This section attempts to handle style differences between browsers. So we
+are going to add resets. There are libraries which do this. We are going to
+use [normalize.css](https://necolas.github.io.normalize.css/).
+
+```bash
+yarn add normalize.css@7.0.0
+```
+Now import normalize into app.js
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import IndecisionApp from './components/IndecisionApp';
+import 'normalize.css/normalize.css'
+import './styles/styles.scss';
+ReactDOM.render(<IndecisionApp/>, document.getElementById('app'));
+```
+But now we have to change webpack.config.js so it also processes .css files
+and not just scss. So we change the test of the rule from `/\.scss$/` to
+`/\.s?css$/`.
+
 ### Video 67 - Theaming with Variables
 ### Video 68 - Big Button and Options List
 ### Video 69 - Styling the Options List
