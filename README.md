@@ -2454,6 +2454,71 @@ for a new component called `_widget.scss`.
 }
 ```
 ### Video 70 - Styling Option Item
+Now we are styling the individual Option component. In this section we want to add leading
+digits in front of each option. We do that by taking advantage of a value in the `map()` 
+command. So we are going to modify the `Options.js` file so beyond passing in the option,
+we can get an index of which counter the map() function is currently on.
+```javascript
+{
+props.options.map((option, index) => (  // notice we added the 'index' argument.
+    <Option
+        key={option}
+        optionText={option}
+        count={index + 1}            // also added a new property called count.
+        handleDeleteOption={props.handleDeleteOption}
+    />
+))
+}
+```
+Then in Option.js we use the new property and add our styling.
+```javascript
+const Option = (props) => (
+    <div className="option">
+        <p className="option__text"> {props.count}. {props.optionText}</p>
+        <button
+        className="button button--link"
+            onClick={(e) => {
+                props.handleDeleteOption(props.optionText)
+            }}
+        >
+            remove
+        </button>
+    </div>
+);
+```
+
+For the input form we want to have the text fill as much of the left side as
+available, leaving just enough for the Add Option button on the right. To
+do that we add to className definitions (add-option and add-option__input) to the AddOption form and then some css
+```javascript
+    render() {
+        return (
+            <div>
+                {this.state.error && <p className="add-option-error">{this.state.error}</p>}
+                <form className="add-option" onSubmit={this.handleAddOptionChild}>
+                    <input className="add-option__input" type='text' name="optionButton" />
+                    <button
+                       className="button">Add Option</button>
+                </form>
+            </div>
+        )
+    }
+```
+```css
+.add-option {
+    display:flex;  // fills the container
+
+}
+.add-option__input {
+    background: $dark-blue;
+    border: none;
+    color: $off-white;
+    border-bottom: .3rem solid darken($dark-blue, 10%);
+    flex-grow: 1;   // tells the input element to grow as much as possible up to the AddOption button.
+    margin-right: $s-size;
+    padding: $s-size;
+}
+```
 ### Video 71 - Styling React Modal
 ### Video 72 - Mobile Considerations
 ### Video 73 - Bonus Favicon
