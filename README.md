@@ -2442,6 +2442,17 @@ Then wherever we want to use buttons as links we add `className="button button--
 
 
 ### Video 69 - Styling the Options List
+In this one we are just going to clean up the Options component. We do this by adding css
+for a new component called `_widget.scss`.
+```css
+.widget-header {
+    background: $blue;
+    color: $off-white;
+    display: flex;       // use a flex box display which spreads the internal elements across the entire div
+    justify-content: space-between; // pushes the 'Your Options' far to the left and 'Remove All' far to the right putting as much 'space-between' as possible.
+    padding: $m-size;
+}
+```
 ### Video 70 - Styling Option Item
 ### Video 71 - Styling React Modal
 ### Video 72 - Mobile Considerations
