@@ -2625,6 +2625,16 @@ We are going to:
 1. CRUD expenses
 
 ### Video 75 - Server vs Client Routing
+
+Server-side is the more traditional way of doing this where requests go across the
+network and retrieve new html.
+
+Client-side is the more modern way were client side javascript dynamically changes what
+is displayed on the screen. You still have to load all the javascript the first time
+from the server, but after than, it's all on the client. We do that with the html5 history
+API. We can watch for URL changes and activate some javascript to render a new component.
+
+
 ### Video 76 - Setting up Budget App
 ### Video 77 - React-Router 101
 ### Video 78 - Setting up 404
