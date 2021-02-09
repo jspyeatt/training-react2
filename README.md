@@ -2520,6 +2520,66 @@ do that we add to className definitions (add-option and add-option__input) to th
 }
 ```
 ### Video 71 - Styling React Modal
+Now we are going to style a 3rd party component. You need to use the dev tools inspector
+quite a bit to figure out what the library is using. In this case it uses a class called
+`ReactModal__Body--open` when the modal is visible. It also adds a `<div>` tag with the
+class `ReactModalPortal`.
+
+_modal.scss
+```javascript
+.ReactModalPortal > div {   // this syntax targets divs which are direct decendants of ReactModalPortal
+    opacity: 0;
+}
+.ReactModalPortal .ReactModal__Overlay { // targets a className inside the ReactModalPortal className
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    transition: opacity 200ms ease-in-out;  // smoother transition.
+}
+.ReactModalPortal .ReactModal__Overlay--after-open { // transitions from nothing to complete opacity
+    opacity: 1;
+}
+.ReactModalPortal .ReactModal__Overlay--before-close { // transitions from opaque to disappear.
+    opacity: 0;
+}
+.modal {
+    background: $light-blue;
+    color: white;
+    max-width: 30rem;
+    outline: none;
+    padding: $l-size;
+    text-align: center;
+}
+
+.modal__title {
+    margin: 0 0 $m-size 0;
+
+}
+.modal__body {
+    margin: 0 0 $l-size 0;
+    font-size: 2rem;
+    font-weight: 300;
+    word-break: break-all;        // if you have a really wrong word, this will put in a linebreak somewhere so things don't go way to the right.
+}
+```
+```javascript
+const OptionModal = (props) => (
+    <Modal
+        isOpen={!!props.selectedOption}
+        contentLabel="selected result"
+        closeTimeoutMS={200}                      // used for transitioning to close
+        onRequestClose={props.clearFunction}
+        className="modal"                         // our modal css class
+    >
+        <h2 className="modal__title">Selected option</h2>
+        {props.selectedOption && <h3 className="modal__body">{props.selectedOption}</h3>}
+        <button
+            className="button"
+            onClick={props.clearFunction}>OK</button>
+    </Modal>
+);
+```
+
 ### Video 72 - Mobile Considerations
 ### Video 73 - Bonus Favicon
 ## Section 9 - React-Router
