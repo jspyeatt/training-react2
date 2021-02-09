@@ -2636,6 +2636,9 @@ API. We can watch for URL changes and activate some javascript to render a new c
 
 
 ### Video 76 - Setting up Budget App
+
+We are going to create a boilerplate project which we will then clone.
+
 ### Video 77 - React-Router 101
 ### Video 78 - Setting up 404
 ### Video 79 - Linking Between Routes
