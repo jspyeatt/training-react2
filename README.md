@@ -2614,4 +2614,24 @@ and add-option_input, then overriding the directives when the screen is wider.
 
 ### Video 73 - Bonus Favicon
 ## Section 9 - React-Router
+### Video 74 - Section Intro
+Course solutions: https://budget-app.mead.io and http://links.mead.io/budget-app.
+
+We are going to:
+1. Login
+1. store data in the database
+1. create user accounts
+1. add expense data. including validation
+1. CRUD expenses
+
+### Video 75 - Server vs Client Routing
+### Video 76 - Setting up Budget App
+### Video 77 - React-Router 101
+### Video 78 - Setting up 404
+### Video 79 - Linking Between Routes
+### Video 80 - Organizing our Routes
+### Video 81 - Query Strings and URL
+### Video 82 - Build It: Router for Portfolio Site
+
+
 
