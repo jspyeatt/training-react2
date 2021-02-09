@@ -2685,6 +2685,25 @@ the route specified, `/create` is actually matching on both `/` and `/create`. S
 needs to be fixed. To do that we just add `exact={true}` to the Route definitions.
 
 ### Video 78 - Setting up 404
+Basically we are going to render a component if we get a path we haven't matched elsewhere.
+
+We are going to import the `Switch` component from react-router-dom in app.js and create a new
+NotFoundPage component. The Switch component will stop when it gets its first path match.
+If no match is found it will load the last page.
+```javascript
+
+const routes = (
+    <BrowserRouter>
+        <Switch>
+            <Route path="/" component={ExpenseDashboardPage} exact={true} />
+            <Route path="/create" component={AddExpensePage} exact={true} />
+            <Route path="/edit" component={EditExpensePage} exact={true} />
+            <Route path="/help" component={HelpPage} exact={true} />
+            <Route component={NotFoundPage} />
+        </Switch>
+    </BrowserRouter>
+);
+```
 ### Video 79 - Linking Between Routes
 ### Video 80 - Organizing our Routes
 ### Video 81 - Query Strings and URL
