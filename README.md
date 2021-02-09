@@ -2581,6 +2581,37 @@ const OptionModal = (props) => (
 ```
 
 ### Video 72 - Mobile Considerations
+Chrome has a tool call device simulation toolbar on the upper left side which lets you change the browser so it appears to be a mobile screen. Once it's open along the top of the screen
+you will see a tool bar that lets you select appearances for a variety of phones.
+
+It's currently using the default of 980 pixels and tries to render that in a 320 pixel screen
+so everything gets zoomed out making things hard to read.
+
+First in index.html add the line
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+```
+Tells the viewport to use the real devices width. When you switch devices things will now
+look a lot better.
+
+We are going to change some of the spacing and the `<input>` form element and `<button>` will
+now be re-aligned on mobile devices so they are stacked one on top of the other. To do this
+we need to change `addoption.scss` so the buttons stack vertically by using media queries.
+```css
+@media (min-width: 45rem) {
+    .add-option {
+        flex-direction: row;
+    }
+    .add-option__input {
+        margin: 0 $s-size 0 0;
+    }
+}
+```
+The `min-width: 45rem` argument means that use the directives when the minimum width is above 
+45rem. So we end up redefining some of these values for the normal definitions of add-option 
+and add-option_input, then overriding the directives when the screen is wider.
+
+
 ### Video 73 - Bonus Favicon
 ## Section 9 - React-Router
 
