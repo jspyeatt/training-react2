@@ -2705,6 +2705,36 @@ const routes = (
 );
 ```
 ### Video 79 - Linking Between Routes
+The goal in this is provide links to the user which bypass the desire to go back to the
+server to get the page. To do that we add some javascript to our links. react-route-dom 
+provides a component called `<Link>` to handle this.
+```javascript
+const NotFoundPage = () => (
+    <div>
+        <div>
+            404 - not found
+            <Link to="/">Lost? go here.</Link>
+        </div>
+    </div>
+);
+```
+react-router-dom also has the component `<NavLink>` which is better suited for navigation
+links. It allows us to call out a link when you are on that page. You can add props such
+as `activeClassName` which will apply a css class to that link when it is the current page
+you are on.
+```javascript
+const Header = () => (
+    <div>
+    <h1>Expensify App</h1>
+    <NavLink to="/" activeClassName="is-active" exact={true}>Home</NavLink>
+    <NavLink to="/create" activeClassName="is-active">Create</NavLink>
+    <NavLink to="/edit" activeClassName="is-active">Edit</NavLink>
+    <NavLink to="/help" activeClassName="is-active">Help</NavLink>
+    </div>
+);
+```
+You need to create a css class for is-active.
+
 ### Video 80 - Organizing our Routes
 ### Video 81 - Query Strings and URL
 ### Video 82 - Build It: Router for Portfolio Site
