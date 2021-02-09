@@ -23,6 +23,7 @@ module.exports = {
     },
     devtool: 'cheap-module-eval-source-map',
     devServer: {
-        contentBase: path.join(__dirname, 'public')
+        contentBase: path.join(__dirname, 'public'),
+        historyApiFallback: true       // tells the server we are only going to return the default page (index.html) for all requests.
     }
 };

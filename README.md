@@ -2640,6 +2640,50 @@ API. We can watch for URL changes and activate some javascript to render a new c
 We are going to create a boilerplate project which we will then clone.
 
 ### Video 77 - React-Router 101
+To learn more about [react router](https://github.com/ReactTraining/react-router) or
+[here](https://reactrouter.com/).
+
+ ```bash
+ yarn add react-router-dom@4.2.2  # because we are only using this for a webapp. If we were
+                                  # doing native react we would use react-router-native
+```
+There are many react router variables you can access in the react-router-dom module. We
+are going to use two: BrowserRouter and Route.
+
+In app.js we are going to use the react-router stuff.
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
+import 'normalize.css/normalize.css'
+import './styles/styles.scss';
+
+const ExpenseDashboardPage = () => (
+    <div>this is the dashboard</div>
+);
+const AddExpensePage = () => (
+    <div>do some adding</div>
+);
+const routes = (
+    <BrowserRouter>
+        <div>
+            <Route path="/" component={ExpenseDashboardPage} />  // define a default route
+            <Route path="/create" component={AddExpensePage}/>   // define a /create route
+        </div>
+    </BrowserRouter>
+);
+ReactDOM.render(routes, document.getElementById('app'));
+```
+But the problem with this is if you try to load /create from the browser it is going
+to make a server request and that's going to return a 404 because /create doesn't exist
+on the server.
+So we need to modify webpack.config.js to tell the dev-server to always just serve
+index.html. This is done by adding the directive `historyApiFallback: true`.
+
+After this is done and you restart dev-server it will serve a page. The problem now is that
+the route specified, `/create` is actually matching on both `/` and `/create`. So that
+needs to be fixed. To do that we just add `exact={true}` to the Route definitions.
+
 ### Video 78 - Setting up 404
 ### Video 79 - Linking Between Routes
 ### Video 80 - Organizing our Routes
