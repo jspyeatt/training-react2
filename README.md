@@ -2813,6 +2813,25 @@ So when I go to `/edit/99` the `match.params` object will have a key/value pair 
 It should be noted that the :id value is only available if the link is generated with `<Route>`.
 
 ### Video 82 - Build It: Router for Portfolio Site
+Clone the expensify app to create a portfolio website.
 
+## Section 10 - Redux
+### Video 83 - Intro
+### Video 84 - Why do we need something like Redux?
+### Video 85 - Setting up Redux
+### Video 86 - Dispatching Actions
+### Video 87 - Subscribing and Dynamic Actions
+### Video 88 - ES6 Object Destructuring
+### Video 89 - ES6 Array Destructuring
+### Video 90 - Refactoring and Organizing
+### Video 91 - Reducers
+### Video 92 - Working with multiple reducers
+### Video 93 - ES6 Spread Operator in Reducers
+### Video 94 - Spreading Objects
+### Video 95 - Wrapping up our Reducers
+### Video 96 - Filtering Redux Data
+### Video 97 - Sortin Redux Data
+
+## Section 11 - React and Redux
 
 
