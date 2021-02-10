@@ -2821,6 +2821,66 @@ Redux is a library used to help manage state. It can do more than what can be do
 state for large applications.
 
 ### Video 84 - Why do we need something like Redux?
+Issues we run into if we don't use Redux and just use component state.
+
+#### Simple App - Indecision App
+
+Component Tree
+
+1. Indecision App - state lived in here. class-based component. state was just a list of strings.
+   1. Options - needed list of strings
+       1. Option - needed individual string
+   1. AddOption - had an action method between IndecisionApp and AddOption for adding to IndecisionApp's list of strings.
+   
+This was manageable as component state because there was a direct connection between all
+of the relevant components.
+
+The components we create are not really reusable. For example the Action component used
+two properties from IndecisionApp, handlePick and hasOptions. Those could be easily passed
+down to Action component from IndecisionApp. But you couldn't also attach the Action component
+to the Header component because Action needed those two properties.
+
+#### Complex App - Expensify App
+
+We don't really have this direct connection between all the components. We have something
+that looks like this instead.
+
+Component Tree
+
+1. AddExpensePage
+   1. AddExpense
+1. ExpenseDashboardPage
+   1. Expenses
+      1. Expense
+
+These are rendered by react-router and have no direct connection to each other's state. There
+is no common parent component. Where does the expense data go?
+
+In the complex app, we need components to get access to application state without having to
+pass properties between components. If we can do this we could put the AddExpense component
+on both the AddExpensePage and the ExpenseDashboardPage without passing properties.
+
+To do this we write our components to interact with the Redux global state container.
+
+#### Redux in Complex App
+Continue to use properties when there is a direct interaction between parent and child.
+
+Redux is a state container store. Example:
+```javascript
+{
+  expenses: [
+     {
+     _id: 'abc',
+     description: 'rent',
+     amount: 109500
+     }
+  ]
+}
+```
+Then we can just CRUD that store from any component anywhere. So the components are more reusable
+as well.
+
+
 ### Video 85 - Setting up Redux
 ### Video 86 - Dispatching Actions
 ### Video 87 - Subscribing and Dynamic Actions
