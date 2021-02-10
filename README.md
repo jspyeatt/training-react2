@@ -2903,6 +2903,33 @@ const store = createStore((state = {count: 0}) => {
 console.log(store.getState());
 ```
 ### Video 86 - Dispatching Actions
+Actions allow us to change values in the Redux store. Actions are objects which get sent
+to the store. The object describes the type of action we want to take.
+
+Our actions are going to be things like increment, decrement, reset by dispatching various
+actions.
+
+We modify a value in the store by dispatching a new state to the store.
+```javascript
+
+// NOTE here we are passing in a second argument, action
+// call redux createStore, passing in a function which returns the default state for the app.
+const store = createStore((state = {count: 0}, action) => {
+    console.log('running');
+    switch (action.type) {
+        case 'INCREMENT':
+            return {count: state.count + 1}
+        default:
+            return state;
+    }
+});
+
+// dispatching the action to the store.
+store.dispatch({
+    type: 'INCREMENT'
+});
+```
+
 ### Video 87 - Subscribing and Dynamic Actions
 ### Video 88 - ES6 Object Destructuring
 ### Video 89 - ES6 Array Destructuring
