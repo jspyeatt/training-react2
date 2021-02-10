@@ -2769,6 +2769,49 @@ export default AppRouter;
 ```
 I also moved all the pages into their own components.
 ### Video 81 - Query Strings and URL
+When react-router finds a match it routes to the component it is also passing some props down.
+So I change the EditExpensePage.js file to pass in props.
+```javascript
+import React from 'react';
+const EditExpensePage = (props) => {
+    console.log(props);
+    return (
+        <div>do some editing</div>
+    );
+};
+export default EditExpensePage;
+```
+When we reload the edit page we will see several objects under the props.
+The `history` object contains a lot of methods in it that allow you to manipulate the browser history and where the user goes with javascript.
+
+`match` object contains information about why the current route is a match.
+
+`location` object tells you about the current url. The `search` string in the location object
+gives you the query string info. The `hash` value would give you the `#myvalue` element from
+the url `/edit#myvalue`.
+
+We need to edit an actual expense and so we are going to have something like `/edit/44`. react-router allows us to do this.
+So in AppRouter.js.
+
+```javascript
+const AppRouter = () => (
+    <BrowserRouter>
+    <div>
+        <Header/>
+        <Switch>
+            <Route path="/" component={ExpenseDashboardPage} exact={true} />
+            <Route path="/create" component={AddExpensePage} exact={true} />
+            <Route path="/edit/:id" component={EditExpensePage} exact={true} />  // now added url parameter :id
+            <Route path="/help" component={HelpPage} exact={true} />
+            <Route component={NotFoundPage} />
+        </Switch>
+        </div>
+    </BrowserRouter>
+);
+```
+So when I go to `/edit/99` the `match.params` object will have a key/value pair for `id`.
+It should be noted that the :id value is only available if the link is generated with `<Route>`.
+
 ### Video 82 - Build It: Router for Portfolio Site
 
 

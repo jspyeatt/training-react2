@@ -1,5 +1,7 @@
 import React from 'react';
-const EditExpensePage = () => (
-    <div>do some editing</div>
-);
+const EditExpensePage = (props) => {
+    return (
+        <div>do some editing for {props.match.params.id}</div>
+    );
+};
 export default EditExpensePage;
