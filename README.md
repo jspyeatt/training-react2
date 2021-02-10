@@ -2882,6 +2882,26 @@ as well.
 
 
 ### Video 85 - Setting up Redux
+We're going to mess around in the playground folder to learn [Redux](https://redux.js.org/).
+
+```bash
+mkdir -p src/playground/redux-101.js
+```
+Then change webpack to use this file instead of app.js
+```bash
+yarn add redux@3.7.2
+```
+```javascript
+import {createStore} from 'redux';
+
+// call redux createStore, passing in a function which returns the default state for the app.
+const store = createStore((state = {count: 0}) => {
+    return state; // returning the default state.
+});
+
+// now access the state.
+console.log(store.getState());
+```
 ### Video 86 - Dispatching Actions
 ### Video 87 - Subscribing and Dynamic Actions
 ### Video 88 - ES6 Object Destructuring
