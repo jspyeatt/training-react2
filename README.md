@@ -2817,6 +2817,9 @@ Clone the expensify app to create a portfolio website.
 
 ## Section 10 - Redux
 ### Video 83 - Intro
+Redux is a library used to help manage state. It can do more than what can be done with component
+state for large applications.
+
 ### Video 84 - Why do we need something like Redux?
 ### Video 85 - Setting up Redux
 ### Video 86 - Dispatching Actions
