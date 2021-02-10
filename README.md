@@ -2989,6 +2989,16 @@ if (city && temperature) {
 }
 ```
 ### Video 89 - ES6 Array Destructuring
+It's similar to object destructuring.
+
+```javascript
+const address = ["123 Main Street", "Madison", "Wisconsin", '53719'];
+// the array has 4 elements, but we are only interested in the second and third.
+// so we lead with an empty comma, the leave the zip off entirely.
+// I can also set the default state to AK. It will use this if there is no third item.
+let [ ,cty, state = 'AK'] = address; 
+console.log(`You are in ${cty}, ${state}`);
+```
 ### Video 90 - Refactoring and Organizing
 ### Video 91 - Reducers
 ### Video 92 - Working with multiple reducers

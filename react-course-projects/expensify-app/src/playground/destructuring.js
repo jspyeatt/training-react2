@@ -28,3 +28,14 @@ const book = {
 
 const {name: publisherName = 'Self-Publish'} = book.publisher;
 console.log(publisherName);
+
+const address = ["123 Main Street", "Madison", "Wisconsin", '53719'];
+// the array has 4 elements, but we are only interested in the second and third.
+// so we lead with an empty comma, the leave the zip off entirely.
+// I can also set the default state to AK. It will use this if there is no third item.
+let [ ,cty, state = 'AK'] = address; 
+console.log(`You are in ${cty}, ${state}`);
+
+const item = ['Coffee (hot)', '$2.00', '$2.50', '$2.75'];
+const [itemName, , medium] = item;
+console.log(`A medium ${itemName} costs ${medium}`);
