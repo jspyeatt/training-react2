@@ -3000,6 +3000,24 @@ let [ ,cty, state = 'AK'] = address;
 console.log(`You are in ${cty}, ${state}`);
 ```
 ### Video 90 - Refactoring and Organizing
+
+Action generators are functions which return Action objects.
+
+In the below function we've set default values into the function with the `{}` in the
+function argument list, then we destructured it and assigned a default value with
+`{incrementBy = 1}`.
+
+```javascript
+const incrementCount = ({incrementBy = 1} = {}) => ({
+        type: 'INCREMENT',
+        incrementBy: incrementBy
+});
+```
+Then your dispatch calls greatly simplify and are less error prone.
+```javascript
+store.dispatch(incrementCount({incrementBy: 5}));
+store.dispatch(incrementCount());
+```
 ### Video 91 - Reducers
 ### Video 92 - Working with multiple reducers
 ### Video 93 - ES6 Spread Operator in Reducers
