@@ -2931,6 +2931,42 @@ store.dispatch({
 ```
 
 ### Video 87 - Subscribing and Dynamic Actions
+Subscribing is being able to watch for changes to the store. We are also going to augment
+the actions sent.
+
+```javascript
+const unsub = store.subscribe(() => {
+   console.log(store.getState());
+});
+```
+The return from subscribe() is a function you can use to unsubscribe. So if we are no longer
+interested in paying attention to store changes we can just call.
+```javascript
+unsub();
+```
+Now we are going over executing dynamic actions. You must include `type`, but you
+can add other values too.
+```javascript
+const store = createStore((state = { count: 0 }, action) => {
+    console.log('running ' + state.count);
+    switch (action.type) {
+        case 'INCREMENT':
+            const incrementBy = typeof action.incrementBy === 'number' ? action.incrementBy : 1;
+            return { count: state.count + incrementBy }
+        case 'DECREMENT':
+            return { count: state.count - 1 }
+        case 'RESET':
+            return { count: 0 }
+        default:
+            return state;
+    }
+});
+store.dispatch({
+    type: 'INCREMENT',
+    incrementBy: 5
+});
+```
+
 ### Video 88 - ES6 Object Destructuring
 ### Video 89 - ES6 Array Destructuring
 ### Video 90 - Refactoring and Organizing
