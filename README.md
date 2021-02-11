@@ -3054,6 +3054,88 @@ const store = createStore(countReducer);
 
 Now we are going to work with redux-expensify.js.
 ### Video 92 - Working with multiple reducers
+We are going to use the `combineReducers` from redux to allow `createStore()` to store
+multiple state data.
+
+We are going to add:
+1. ADD_EXPENSE
+1. REMOVE_EXPENSE
+1. EDIT_EXPENSE
+1. SET_TEXT_FILTER
+1. SORT_BY_DATE
+1. SET_START_DATE
+1. SET_END_DATE
+
+We are going to create a separate reducers for each root property. We have two big ones.
+Expenses and Filters. So we are going to create 2 reducers. Then we will combine the reducers.
+
+Our sample date looks like this:
+```javascript
+const demoState = {
+    expenses: [
+        {
+            id: '123',
+            description: 'January Rent',
+            note: 'This was the January rent',
+            amount: 54500,
+            createdAt: 0
+        }
+    ],
+    filters: {
+        text: 'rent',
+        sortBy: 'amount',
+        startDate: undefined,
+        endDate: undefined
+    }
+};
+```
+
+The reducer we set up for expenses is `expensesReducer`. Because we want the `createStore()`
+function to return the structure of the demoState data we need to make certain the data
+is returned under the `expenses` key. To do that we need to use the `combineReducers` function
+as follows:
+```javascript
+const expensesReducerDefaultState = [];
+const expensesReducer = (state = expensesReducerDefaultState, action) => {
+    switch (action.type) {
+        default:
+                return state;
+    }
+};
+
+
+const store = createStore(
+    combineReducers ({
+        expenses: expensesReducer  // Assigning the expensesReducer to the expenses object.
+    })
+);
+```
+And we can do the same thing for filters. We are going to create a reducer for it, and assign
+it in the createStore() function. This allows us to have multiple reducers attached to the
+store.
+```javascript
+const filtersReducerDefaultState = {
+    text: '',
+    sortBy: 'date',
+    startDate: undefined,
+    endDate: undefined
+};
+const filtersReducer = (state = filtersReducerDefaultState, action) => {
+    switch (action.type) {
+        default:
+                return state;
+    }
+};
+
+const store = createStore(
+    combineReducers ({
+        expenses: expensesReducer,           // now we have multiple reducers
+        filters: filtersReducer
+    })
+);
+
+```
+
 ### Video 93 - ES6 Spread Operator in Reducers
 ### Video 94 - Spreading Objects
 ### Video 95 - Wrapping up our Reducers
