@@ -3362,6 +3362,12 @@ To use sort() we need to define a compare function.
 
 ## Section 11 - React and Redux
 ### Video 98 - Section Intro
+In this section we will be creating 'connected components' which means react components
+interacting with the redux store.
+When we do that components can fetch data from the store and when the data changes have
+the component automatically update. We will also be able to dispatch data right from
+the components.
+
 ### Video 99 - Organizing Redux
 ### Video 100 - The Higher Order Component
 ### Video 101 - Connecting Store and Component with React-Redux
