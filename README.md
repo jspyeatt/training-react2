@@ -3339,6 +3339,21 @@ case 'SET_SORT_BY':
 Finally add actions for setStartDate() and setEndDate().
 
 ### Video 96 - Filtering Redux Data
+In this video we are going to write a function which interacts between the expenses
+and the filter to return a modified output without modifying the actual redux data.
+
+```javascript
+const getVisibleExpenses = (expenses, {text, sortBy, startDate, endDate} = filters) => {
+
+    return expenses.filter((expense) => {
+        const startDateMatch = typeof startDate !== 'number' || expense.createdAt >= startDate;
+        const endDateMatch = typeof endDate !== 'number' || expense.createdAt <= endDate;
+        const textMatch = expense.description.includes(text);
+        return startDateMatch && endDateMatch && textMatch;
+    });
+};
+```
+
 ### Video 97 - Sortin Redux Data
 
 ## Section 11 - React and Redux
