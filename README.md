@@ -3019,6 +3019,40 @@ store.dispatch(incrementCount({incrementBy: 5}));
 store.dispatch(incrementCount());
 ```
 ### Video 91 - Reducers
+For this we are going to focus on the function `createStore()`. This is a reducer function.
+
+*Actions describe the fact that something happened, but done' specify how the application's
+state changes in response. That is the job of reducers.*
+
+`createStore` reacts to the action passed in. The action doesn't know what's done.
+
+So we are going to reorganize a bit by creating a countReducer function and move the createStore
+logic into it. This way createStore can have multiple reducers.
+
+```javascript
+const countReducer = (state = { count: 0 }, action) => {
+    console.log('running ' + state.count);
+    switch (action.type) {
+        case 'INCREMENT':
+            return { count: state.count + action.incrementBy }
+        case 'DECREMENT':
+            return { count: state.count - action.decrementBy }
+        case 'SET':
+            return { count: action.count }
+        case 'RESET':
+            return { count: 0 }
+        default:
+            return state;
+    }
+};
+
+// call redux createStore, passing in a function which returns the default state for the app.
+const store = createStore(countReducer);
+```
+1. Reducers are pure functions: the output is only determined by the input, nothing is based on state. It also has no external side effects.
+1. Never change `state` or `action`. These are the objects which are passed into the reducer. Don't mutate them.
+
+Now we are going to work with redux-expensify.js.
 ### Video 92 - Working with multiple reducers
 ### Video 93 - ES6 Spread Operator in Reducers
 ### Video 94 - Spreading Objects

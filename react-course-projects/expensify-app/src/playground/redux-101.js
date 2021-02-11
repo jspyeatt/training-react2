@@ -20,8 +20,7 @@ const resetCount = () => ({
     type: 'RESET'
 })
 
-// call redux createStore, passing in a function which returns the default state for the app.
-const store = createStore((state = { count: 0 }, action) => {
+const countReducer = (state = { count: 0 }, action) => {
     console.log('running ' + state.count);
     switch (action.type) {
         case 'INCREMENT':
@@ -35,7 +34,10 @@ const store = createStore((state = { count: 0 }, action) => {
         default:
             return state;
     }
-});
+};
+
+// call redux createStore, passing in a function which returns the default state for the app.
+const store = createStore(countReducer);
 // called each time the store changes. It's called BEFORE the createStore is called.
 const unsub = store.subscribe(() => {
     console.log('subscribe ', store.getState());
