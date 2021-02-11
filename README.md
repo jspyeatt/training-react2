@@ -3369,6 +3369,91 @@ the component automatically update. We will also be able to dispatch data right 
 the components.
 
 ### Video 99 - Organizing Redux
+In this section we are going to move the elements of redux-expensify.js into our main
+app.
+
+```bash
+mkdir -p src/actions
+mkdir -p src/reducers
+mkdir -p src/store
+mkdir -p src/selectors
+```
+We are going to make two files inside /actions, expenses.js and filters.js and move
+all our action generator functionality in there. When we copy these action generators
+into the new file I'm going to export them as named exports.
+
+We are going to create two files in /reducers, expenses.js and filters.js and move the
+reducers and the default state variables in there. In these files, since there really
+is only one function we care about, the reducer itself, we can reference it as the
+default export.
+
+Next we need to land the function `getVisibleExpenses()` somewhere. That somewhere
+is in the file /selectors/expenses.js.
+
+Finally we need to tie everything together with the redux store. We do that by creating
+the file /store/configureStore.js.
+
+```javascript
+import { createStore, combineReducers } from 'redux';
+import expensesReducer from './../reducers/expenses';
+import filtersReducer from './../reducers/filters';
+
+
+// create the store inside of the default export function.
+export default () => {
+    const store = createStore(
+        combineReducers({
+            expenses: expensesReducer,
+            filters: filtersReducer
+        })
+    );
+    return store;
+}
+
+```
+
+So our new directory structure looks like this.
+1. root
+   1. public
+      1. images
+      1. index.html
+   1. src
+      1. actions
+      1. components
+      1. reducers
+      1. routers
+      1. selectors
+      1. store
+      1. styles
+         1. base
+         1. components
+      1. app.js
+
+Now that everything has been moved we are going to start to expose the new functionality
+and file structures in our app.js.
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import AppRouter from './routers/AppRouter';
+import configureStore from './store/configureStore'
+import {addExpense} from './actions/expenses';
+import {setTextFilter} from './actions/filters';
+import getVisibleExpenses from './selectors/expenses';
+import 'normalize.css/normalize.css'
+import './styles/styles.scss';
+
+const store = configureStore();
+store.dispatch(addExpense({description: 'Water bill', createdAt: 10, amount: 10000}));
+store.dispatch(addExpense({description: 'Gas bill', createdAt: 9, amount: 7000}));
+store.dispatch(setTextFilter('gas'));
+console.log(store.getState());
+console.log(getVisibleExpenses(store.getState().expenses, store.getState().filters));
+ReactDOM.render(<AppRouter />, document.getElementById('app'));
+```
+Now when you reload the page we see the console output only showing the 'gas' bill.
+So everything seems to be working.
+
+
 ### Video 100 - The Higher Order Component
 ### Video 101 - Connecting Store and Component with React-Redux
 ### Video 102 - Rendering Individual Expenses
