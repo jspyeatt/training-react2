@@ -3243,6 +3243,79 @@ const expense1 = store.dispatch(addExpense({ description: 'rent', amount: 100 })
 store.dispatch(removeExpense({id: expense1.expense.id}));
 ```
 ### Video 94 - Spreading Objects
+Spreading objects isn't available by default. So we have to add it to the `.babelrc`
+file as a plugin. You can find it by searching for 'babel spread operator'.
+```bash
+yarn add babel-plugin-transform-object-rest-spread@6.23.0
+```
+```javascript
+{
+    "presets": ["env", "react"],
+    "plugins": ["transform-class-properties",
+                "transform-object-rest-spread"]
+}
+```
+
+```javascript
+const user = {
+    name: 'Jen',
+    age: 24
+}
+console.log({
+    ...user,
+    location: "Madison",
+    age: 27
+});
+```
+So in the above example, we are adding `location` and overriding `age`. If we reorganized
+our call to be this.
+```javascript
+console.log({
+    location: "Madison",
+    age: 27,
+    ...user,
+});
+```
+We wouldn't override `age`. The age of 27 would be overridden by the user.age value, 24.
+
+So we are going to use this feature to write the editExpense function and reducer.
+
+The editExpense action generator in this case is going to take two arguments. The
+expense id, and an object indicating which fields in the expense you want to modify.
+So when dispatching that it may look like this.
+```javascript
+store.dispatch(editExpense(expense2.expense.id, {amount: 500}));
+```
+The editExpense action generator will look like this
+```javascript
+// passing in the id of the expense to modify and the updates object with the new values.
+const editExpense = (id, updates) => ({
+    type: 'EDIT_EXPENSE',
+    id: id,
+    updates
+});
+```
+Now the spread object feature is used in the expensesReducer. Here's the case statement.
+```javascript
+case 'EDIT_EXPENSE':
+    console.log('EDIT ', action.id);
+    
+    // we need to run a map() function over all the expenses.
+    // in that map() function if the element id from the map matches the
+    // id we passed in we are going to use object spreading to merge the
+    // results for that expense object. We first ...expense to spread the
+    // source expense, then we ...action.updates to replace the appropriate
+    // values.
+    return state.map((expense) => {
+        if (expense.id === action.id) {
+            return {
+                ...expense,
+                ...action.updates
+            };
+        }
+        return expense;
+    });
+```
 ### Video 95 - Wrapping up our Reducers
 ### Video 96 - Filtering Redux Data
 ### Video 97 - Sortin Redux Data
