@@ -3353,9 +3353,28 @@ const getVisibleExpenses = (expenses, {text, sortBy, startDate, endDate} = filte
     });
 };
 ```
-
 ### Video 97 - Sortin Redux Data
+We want to sort by date or amount. To add sorting we will use the array sort() method.
+To use sort() we need to define a compare function.
+
+```javascript
+```
 
 ## Section 11 - React and Redux
+### Video 98 - Section Intro
+### Video 99 - Organizing Redux
+### Video 100 - The Higher Order Component
+### Video 101 - Connecting Store and Component with React-Redux
+### Video 102 - Rendering Individual Expenses
+### Video 103 - Controlled Inputs for Filters
+### Video 104 - Dropdown for Picking SortBy
+### Video 105 - Created Expense Add/Edit Form
+### Video 106 - Setting up a Date Picker
+### Video 107 - Wiring up Add Expense
+### Video 108 - Wiring up Edit Expense
+### Video 109 - Redux Dev Tools
+### Video 110 - Filtering By Dates
+
+## Section 12: Testing Your Application
 
 

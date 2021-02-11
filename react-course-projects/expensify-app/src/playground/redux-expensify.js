@@ -110,6 +110,13 @@ const getVisibleExpenses = (expenses, {text, sortBy, startDate, endDate} = filte
         const endDateMatch = typeof endDate !== 'number' || expense.createdAt <= endDate;
         const textMatch = expense.description.toLowerCase().includes(text.toLowerCase());
         return startDateMatch && endDateMatch && textMatch;
+    }).sort((a, b) => {
+
+        if (sortBy === 'date') {
+            return a.createdAt < b.createdAt ? 1 : -1;
+        } else if (sortBy === 'amount') {
+            return a.amount < b.amount ? 1 : -1;
+        }
     });
 };
 
@@ -145,8 +152,13 @@ store.dispatch(addExpense({ description: 'gas', amount: 600, createdAt: 40 }));
 store.dispatch(addExpense({ description: 'shoes', amount: 100, createdAt: 50 }));
 store.dispatch(addExpense({ description: 'rent', amount: 10000, createdAt: 60 }));
 store.dispatch(addExpense({ description: 'rent', amount: 11000, createdAt: 70 }));
+store.dispatch(addExpense({ description: 'rent', amount: 13000, createdAt: 38 }));
+store.dispatch(addExpense({ description: 'rent', amount: 14000, createdAt: 37 }));
+store.dispatch(addExpense({ description: 'rent', amount: 13000, createdAt: 90 }));
 store.dispatch(setSortByDate());
 console.log('ALL EXPENSES', store.getState().expenses);
+console.log(getVisibleExpenses(store.getState().expenses, store.getState().filters));
+store.dispatch(setSortByAmount());
 console.log(getVisibleExpenses(store.getState().expenses, store.getState().filters));
 
 
@@ -167,13 +179,3 @@ const demoState = {
         endDate: undefined
     }
 };
-
-const user = {
-    name: 'Jen',
-    age: 24
-}
-console.log({
-    ...user,
-    location: "Madison",
-    age: 27
-});
