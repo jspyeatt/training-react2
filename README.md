@@ -3317,6 +3317,27 @@ case 'EDIT_EXPENSE':
     });
 ```
 ### Video 95 - Wrapping up our Reducers
+In this section we are first going to add action generators for sortBy on the filters.
+```javascript
+const setSortByAmount = () => ({
+    type: 'SET_SORT_BY',
+    sortBy: 'amount'
+});
+const setSortByDate = () => ({
+    type: 'SET_SORT_BY',
+    sortBy: 'date'
+});
+```
+In reducer
+```javascript
+case 'SET_SORT_BY':
+    return {
+        ...state,
+        sortBy: action.sortBy
+    }
+```
+Finally add actions for setStartDate() and setEndDate().
+
 ### Video 96 - Filtering Redux Data
 ### Video 97 - Sortin Redux Data
 

@@ -16,7 +16,7 @@ const addExpense = ({ description = '',
         }
     });
 
-const removeExpense = ({id} = {}) => ({
+const removeExpense = ({ id } = {}) => ({
     type: 'REMOVE_EXPENSE',
     id: id
 });
@@ -34,8 +34,8 @@ const expensesReducer = (state = expensesReducerDefaultState, action) => {
                 action.expense
             ];
         case 'REMOVE_EXPENSE':
-            console.log("REMOVE ID",action.id);
-            return state.filter((expense) => action.id !== expense.id );
+            console.log("REMOVE ID", action.id);
+            return state.filter((expense) => action.id !== expense.id);
         case 'EDIT_EXPENSE':
             console.log('EDIT ', action.id);
             return state.map((expense) => {
@@ -56,7 +56,22 @@ const setTextFilter = (textValue = '') => ({
     type: 'SET_TEXT_FILTER',
     text: textValue
 });
-
+const setSortByAmount = () => ({
+    type: 'SET_SORT_BY',
+    sortBy: 'amount'
+});
+const setSortByDate = () => ({
+    type: 'SET_SORT_BY',
+    sortBy: 'date'
+});
+const setStartDate = (date) => ({
+    type: 'SET_START_DATE',
+    startDate: date
+});
+const setEndDate = (date) => ({
+    type: 'SET_END_DATE',
+    endDate: date
+});
 const filtersReducerDefaultState = {
     text: '',
     sortBy: 'date',
@@ -65,11 +80,26 @@ const filtersReducerDefaultState = {
 };
 const filtersReducer = (state = filtersReducerDefaultState, action) => {
     switch (action.type) {
+        case 'SET_SORT_BY':
+            return {
+                ...state,
+                sortBy: action.sortBy
+            };
         case 'SET_TEXT_FILTER':
             return {
                 ...state,
                 text: action.text
-            }
+            };
+        case 'SET_START_DATE':
+            return {
+                ...state,
+                startDate: action.startDate
+            };
+        case 'SET_END_DATE':
+            return {
+                ...state,
+                endDate: action.endDate
+            };
         default:
             return state;
     }
@@ -89,14 +119,25 @@ const expense1 = store.dispatch(addExpense({ description: 'rent', amount: 100 })
 const expense2 = store.dispatch(addExpense({ description: 'coffee', amount: 300 }));
 console.log(store.getState());
 
-store.dispatch(removeExpense({id: expense1.expense.id}));
+store.dispatch(removeExpense({ id: expense1.expense.id }));
 console.log(store.getState());
-store.dispatch(editExpense(expense2.expense.id, {amount: 500}));
+store.dispatch(editExpense(expense2.expense.id, { amount: 500 }));
 console.log(store.getState());
 
 store.dispatch(setTextFilter('rent'));
 console.log(store.getState());
 store.dispatch(setTextFilter());
+console.log(store.getState());
+store.dispatch(setSortByAmount());
+console.log(store.getState());
+store.dispatch(setSortByDate());
+console.log(store.getState());
+
+store.dispatch(setStartDate(125));
+console.log(store.getState());
+store.dispatch(setStartDate());
+console.log(store.getState());
+store.dispatch(setEndDate(130));
 console.log(store.getState());
 
 const demoState = {
