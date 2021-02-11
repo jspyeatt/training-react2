@@ -3137,6 +3137,111 @@ const store = createStore(
 ```
 
 ### Video 93 - ES6 Spread Operator in Reducers
+```bash
+yarn add uuid@3.1.0
+```
+The first thing we are doing is crate an action generator for the ADD_EXPENSE.
+This entails three things:
+1. create the action generator
+1. change the expenseReducer so it returns the new state when ADD_EXPENSE type is
+the action.
+1. dispatch the data to the store so the expense can be added.
+
+Create the action generator
+```javascript
+// define action generators
+const addExpense = ({ description = '',
+    note = '',
+    amount = 0,
+    createdAt = 0 } = {}) => ({
+        type: 'ADD_EXPENSE',
+        expense: {
+            id: uuid(),
+            description,
+            note,
+            amount,
+            createdAt
+        }
+    })
+```
+
+Change the expense reducer to recognize ADD_EXPENSE
+```javascript
+const expensesReducer = (state = expensesReducerDefaultState, action) => {
+    switch (action.type) {
+        case 'ADD_EXPENSE':
+            return state.concat(action.expense); // note: concat doesn't modify the source array, it just returns a new one
+        default:
+            return state;
+    }
+};
+```
+
+Dispatch new data to the store.
+```javascript
+store.dispatch(addExpense({ description: 'rent', amount: 100 }));
+```
+
+Now we will use the ES6 operator to do the same work we did above, just do it
+in a simplified way.
+```javascript
+const names = ["John", "Steve"];
+names.push('Bill');   // now names is length 3
+names.concat('Dave'); // returns an array of length 4, but names is still 3.
+
+// now use the spread operator
+[...names]    // names still contains 'John', 'Steve', 'Bill'.
+[...names, 'Mike']  // names still contains the original 3, but the return from this statement contains new array of length 4
+
+['Adam', ...names, 'Mike'] // now returns length 5 with Adam first and Mike last.
+```
+
+Knowing this, we are now going to change the expenseReducer to use the spread operator
+```javascript
+const expensesReducer = (state = expensesReducerDefaultState, action) => {
+    switch (action.type) {
+        case 'ADD_EXPENSE':
+            return [
+                ...state,
+                action.expense
+            ]
+        default:
+            return state;
+    }
+};
+```
+So to add a removeExpense action generator we do the following:
+
+remove expense generator
+```javascript
+const removeExpense = ({id} = {}) => ({
+    type: 'REMOVE_EXPENSE',
+    id: id
+});
+```
+Change the expensesReducer
+```javascript
+const expensesReducer = (state = expensesReducerDefaultState, action) => {
+    switch (action.type) {
+        case 'ADD_EXPENSE':
+            return [
+                ...state,
+                action.expense
+            ];
+        case 'REMOVE_EXPENSE':
+            console.log("REMOVE ID",action.id);
+            return state.filter((expense) => action.id !== expense.id );
+        default:
+            return state;
+    }
+};
+```
+
+Then dispatch
+```javascript
+const expense1 = store.dispatch(addExpense({ description: 'rent', amount: 100 }));
+store.dispatch(removeExpense({id: expense1.expense.id}));
+```
 ### Video 94 - Spreading Objects
 ### Video 95 - Wrapping up our Reducers
 ### Video 96 - Filtering Redux Data
