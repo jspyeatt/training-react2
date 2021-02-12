@@ -3605,6 +3605,58 @@ this means is that if another component changes the expense data, the ExpenseLis
 will automatically be updated/rerendered to reflect the changes.
 
 ### Video 102 - Rendering Individual Expenses
+We create a new component ExpenseListItem.js to render description, amount and createdAt. Then
+use map() to generate the components.
+
+```javascript
+import React from 'react';
+
+const ExpenseListItem = ({description, amount, createdAt}) => (
+    <div>
+        <span>{description}</span>
+        <span>{amount}</span>
+        <span>{createdAt}</span>
+    </div>
+);
+export default ExpenseListItem;
+```
+Notice how we destructure the input parameters to the component. We can ONLY do this if we
+use the spread operation when calling this component in the ExpenseList component.
+```javascript
+import React from 'react';
+import { connect } from 'react-redux';
+import ExpenseListItem from './ExpenseListItem';
+
+const ExpenseList = (props) => (
+    <div>
+        <h1>Expense List</h1>
+        {props.expenses.map((expense) => {
+            return <ExpenseListItem key={expense.id} {...expense}/>   // Notice how we spread the expense object.
+        })}
+    </div>
+);
+```
+
+Now we are going to use our default selector from /selectors/expenses.js and call that function
+in our mapStateToProps() function.
+
+So this:
+```javascript
+const mapStateToProps = (state) => {
+    return {
+        expenses: state.expenses
+    };
+};
+```
+becomes this:
+```javascript
+const mapStateToProps = (state) => {
+    return {
+        expenses: selectExpenses(state.expenses, state.filters)
+    };
+};
+```
+
 ### Video 103 - Controlled Inputs for Filters
 ### Video 104 - Dropdown for Picking SortBy
 ### Video 105 - Created Expense Add/Edit Form
