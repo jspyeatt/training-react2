@@ -3658,6 +3658,93 @@ const mapStateToProps = (state) => {
 ```
 
 ### Video 103 - Controlled Inputs for Filters
+We are going to create a new component in /components/ExpenseListFilters.js. It is basically
+going to be a `<input>` tag. But we want to pre-populate it with the current textFilter value
+and modify the store from the form data.
+
+So we need the component to be passed the value from the store.
+```javascript
+import React from 'react';
+import ExpenseListItem from './ExpenseListItem';
+import {connect} from 'react-redux'
+
+const ExpenseListFilters = (props) => (
+    <div>
+        <input type='text' value={props.filters.text} />
+    </div>
+);
+const mapStateToProps = (state) => {
+    return {
+        filters: state.filters
+    };
+};
+export default connect(mapStateToProps)(ExpenseListFilters);
+```
+And add the new component to the dashboard.
+```javascript
+import React from 'react';
+import ExpenseList from './ExpenseList';
+import ExpenseListFilters from './ExpenseListFilters';
+const ExpenseDashboardPage = () => (
+    <div>
+        <div>this is the dashboard</div>
+        <ExpenseListFilters/>
+        <ExpenseList />
+    </div>
+);
+export default ExpenseDashboardPage;
+```
+Now we want to dispatch changes to the input field the user types in back to the redux store.
+
+To do this we have to add a function `onChange` to the `<input>` tag and set the value
+in the store. But we also have to call dispatch on the store to set the text filter. This
+is actually easy because in addition to passing the properties to a component, redux also
+passes a copy of the dispatch() function with the props field. So you can dispatch events
+to the redux store. Here's how this is all done.
+
+```javascript
+import {setTextFilter} from '../actions/filters';             // Import the setTextFilter
+
+const ExpenseListFilters = (props) => (
+    <div>
+        <input type='text' defaultValue={props.filters.text} onChange={(e) => {
+            console.log(e.target.value);
+            props.dispatch(setTextFilter(e.target.value));
+        }} />
+    </div>
+);
+```
+Notice the onChange() function. the `props.dispatch(setTextFilter(e.target.value))` is where
+you set the new value in the redux store.
+
+To add the Remove Item button we do some similar things.
+1. import connect and removeExpense
+1. destructure the id and dispatch data into ExpenseListItem
+1. change the export default to `connect()(ExpenseListItem)`
+1. dispatch the call to removeExpense, passing in the id.
+
+```javascript
+import React from 'react';
+import {connect} from 'react-redux'
+import {removeExpense} from '../actions/expenses';
+
+// Notice we are now destructuring the id and dispatch values.
+const ExpenseListItem = ({description, amount, createdAt, id, dispatch}) => (
+    <div>
+        <span>{description}</span>
+        <span>{amount}</span>
+        <span>{createdAt}</span>
+        <span>
+            <button onClick={(e) => {
+                dispatch(removeExpense({id:id}));  // passing in an object with the id
+            }}>Remove</button>
+            </span>
+    </div>
+);
+export default connect()(ExpenseListItem);
+```
+
+
 ### Video 104 - Dropdown for Picking SortBy
 ### Video 105 - Created Expense Add/Edit Form
 ### Video 106 - Setting up a Date Picker
