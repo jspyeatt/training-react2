@@ -3707,7 +3707,7 @@ import {setTextFilter} from '../actions/filters';             // Import the setT
 
 const ExpenseListFilters = (props) => (
     <div>
-        <input type='text' defaultValue={props.filters.text} onChange={(e) => {
+        <input type='text' value={props.filters.text} onChange={(e) => {
             console.log(e.target.value);
             props.dispatch(setTextFilter(e.target.value));
         }} />
@@ -3744,8 +3744,37 @@ const ExpenseListItem = ({description, amount, createdAt, id, dispatch}) => (
 export default connect()(ExpenseListItem);
 ```
 
-
 ### Video 104 - Dropdown for Picking SortBy
+We're going to add a dropdown which allows the user to select the way they want the expenses sorted.
+
+It's basically like the last video, except using a `<select>` and some conditional logic.
+
+We do the following:
+1. import setSortByAmount and setSortByDate from /actions/filters.
+1. set the value= default for the `<select>` from the props
+1. write an onChange() function to conditionally change sortBy.
+
+The snippet added to ExpenseListFilters will look like this:
+```javascript
+<select
+    value={props.filters.sortBy}
+    onChange={(e) => {
+        const v = e.target.value;
+        console.log('v=', v);
+        switch (v) {
+            case 'date':
+                props.dispatch(setSortByDate());
+                return;
+            case 'amount':
+                props.dispatch(setSortByAmount());
+                return;
+        }
+    }}>
+    <option value='date'>Date</option>
+    <option value='amount'>Amount</option>
+</select>
+```
+
 ### Video 105 - Created Expense Add/Edit Form
 ### Video 106 - Setting up a Date Picker
 ### Video 107 - Wiring up Add Expense
