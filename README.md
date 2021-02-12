@@ -3455,6 +3455,62 @@ So everything seems to be working.
 
 
 ### Video 100 - The Higher Order Component
+We will install react-redux.
+```bash
+yarn add react-redux
+```
+We are going to use something new, called higher order components. Using the playground
+file hoc.js.
+
+A higher order component is a component that renders another component. 
+
+For this example let's assume we are writing a medical application and that
+application displays personal information. We want the application to alert
+the user they are viewing private information.
+
+So we want to conditionally add a banner warning the user the information below is private.
+
+The HOC components allow us to:
+1. reuse code
+1. use render hijacking
+1. do property manipulation
+1. abstract the state of the application
+
+So we create a function which takes the original source component we want to wrap, then we return
+a new component when includes the original component and the new data we want to wrap it in. The
+returned, wrapped version of the original component can then be rendered by ReactDOM.
+Pay particular attention to how we use the spread object operation to pass the props down
+to the WrappedComponent.
+```javascript
+// this is a regular function, not a component. But it takes the source
+// component passed in and returns a new component which encompasses
+// the original component.
+// the property isAdmin will conditionally render the banner.
+const withAdminWarning = (WrappedComponent) => {
+    return (props) => (
+        <div>
+            {props.isAdmin && <p>This is private info. Please don't share.</p>}
+            <WrappedComponent {...props}/>
+        </div>
+    );
+};
+
+// AdminInfo is a higher order version of Info
+const AdminInfo = withAdminWarning(Info);
+ReactDOM.render(<AdminInfo isAdmin={true} info="This is the detail"/>, document.getElementById("app"));
+```
+Here's another HOC which checks to see if you need to be authenticated to view the component.
+```javascript
+const requireAuthentication = (WrappedComponent) => {
+    return (props) => (
+        <div>
+            {props.isAuthenticated ? <WrappedComponent {...props}/> : <p>Not authorized</p>}
+        </div>
+    );
+};
+const AuthInfo = requireAuthentication(Info);
+ReactDOM.render(<AuthInfo isAuthenticated={true} info="This is the detail"/>, document.getElementById("app"));
+```
 ### Video 101 - Connecting Store and Component with React-Redux
 ### Video 102 - Rendering Individual Expenses
 ### Video 103 - Controlled Inputs for Filters
