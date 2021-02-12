@@ -3455,10 +3455,7 @@ So everything seems to be working.
 
 
 ### Video 100 - The Higher Order Component
-We will install react-redux.
-```bash
-yarn add react-redux
-```
+
 We are going to use something new, called higher order components. Using the playground
 file hoc.js.
 
@@ -3512,6 +3509,101 @@ const AuthInfo = requireAuthentication(Info);
 ReactDOM.render(<AuthInfo isAuthenticated={true} info="This is the detail"/>, document.getElementById("app"));
 ```
 ### Video 101 - Connecting Store and Component with React-Redux
+The goal for this video is to list the expenses on the dashboard page. 
+The first hurdle is to get the expense information from the store from within the react components.
+
+The React-Redux library only provides two things a `Provider` component and the `connect()` function.
+
+We will install react-redux.
+```bash
+yarn add react-redux@5.0.5
+```
+
+We need to import Provider into app.js. 
+```javascript
+import {Provider} from 'react-redux';
+
+```
+Provider provides the redux store to all of the application components. To do this we wrap our
+entire application in a Provider tag and specify the store as a property to the Provider tag.
+
+So before Provider our code looked like this:
+```javascript
+ReactDOM.render(<AppRouter/>, document.getElementById('app'));
+```
+after
+```javascript
+const store = configureStore();
+const jsx = (
+    <Provider store={store}>
+        <AppRouter/>
+    </Provider>
+);
+
+ReactDOM.render(jsx, document.getElementById('app'));
+```
+Now all components have access to the store via `connect()`.
+
+The way this is done is a bit confusing so I'm going over this with a simpler example.
+
+We create a new component called ExpenseList.js. Which looks something like this.
+
+```javascript
+import React from 'react';
+import {connect} from 'react-redux';
+const ExpenseList = (props) => (
+    <div>
+        <h1>Expense List: {props.name}</h1>
+    </div>
+);
+```
+Inside of there we are going to create a HOC function called `ConnectExpenseList` which
+does the following:
+1. creates the new function
+1. the function calls `connect(state)` whose first argument is also a function containing what data to pass.
+1. Wraps `ExpenseList` in the new connect.
+1. We export the `ConnectExpenseList` as the default component for the file.
+
+```javascript
+// connect is a higher order function, so we need to call that, with another component argument.
+const ConnectedExpenseList = connect((state) => {
+    return {
+        name: 'John'
+    };
+})(ExpenseList);
+export default ConnectedExpenseList;
+```
+When we are done, the object returned with the name 'John' is a wrapped version of ExpenseList
+and passes that data as props into ExpenseList. The function signature is a bit weird for 
+connect(). Because the first argument is itself a function. The return from connect() is a function
+which you pass in the component you are going to wrap.
+
+For our real component we want to pass the expenses in. So it really looks like this:
+```javascript
+const ConnectedExpenseList = connect((state) => {
+    return {
+        expenses: state.expenses
+    };
+})(ExpenseList);
+```
+Now expenses is available as a prop to ExpenseList.
+
+This however is a really messy way of presenting the functions. The more common way to organize
+things is to have a separate function to map the redux state to the properties, then use the
+anonymous `export default` for the component.
+```javascript
+const mapStateToProps = (state) => {
+    return {
+        expenses: state.expenses
+    };
+};
+
+export default connect(mapStateToProps)(ExpenseList);
+```
+The **biggest feature** of this beyond providing the state data is that the data is reactive. What
+this means is that if another component changes the expense data, the ExpenseList component
+will automatically be updated/rerendered to reflect the changes.
+
 ### Video 102 - Rendering Individual Expenses
 ### Video 103 - Controlled Inputs for Filters
 ### Video 104 - Dropdown for Picking SortBy
