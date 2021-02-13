@@ -3864,8 +3864,83 @@ if (amount.match(/^\d*(\.\d{0,2})?$/)) {    // only allow digits with a maximum 
 };
 ```
 
-
 ### Video 106 - Setting up a Date Picker
+We are going to use [momentjs.com](momentjs.com). It's a library specifically dedicated to all things date and time.
+We are also going to use an airbnb project called react-dates. We will use the single date picker
+from this project.
+
+```bash
+yarn add moment@2.18.1 react-dates@12.7.0 react-addons-shallow-compare@15.6.0
+```
+The shallow-compare is actually no longer supported, but it is used by react-dates. So for now, 
+that needs to be there too.
+
+Moment is used to manipulate dates because the default javascript Date object is terrible.
+
+```javascript
+import moment from 'moment';
+const now = moment();
+console.log(now);
+```
+With this output if you open up `_proto` you will find a huge list of methods available.
+
+```javascript
+now.format();   // prints out a full timestamp string
+```
+
+Now to start using the date picker in ExpenseForm we need to do the following:
+
+```javascript
+import {SingleDatePicker} from 'react-dates';
+import 'react-dates/lib/css/_datepicker.css';   // need to import this for the datepicker.
+```
+For the SingleDatePicker component there are 4 required properties:
+1. `date` - the default date
+1. `onDateChange` - a handler to fire when the date changes
+1. `focused` - indicates whether the widget is in focus
+1. `onFocusChange` - handler for when the library has to change the value.
+
+So we add new properties to the component:
+```javascript
+state = {
+   description: '',
+   note: '',
+   amount: '',
+   createdAt: moment(),
+   calendarFocused: false
+}
+```
+We add the new handlers:
+```javascript
+onDateChange = (createdAt) => {       // note the object passed in is actually a moment object.
+   this.setState(() => ({createdAt}));
+};
+onDateFocusChange = ({focused}) => {     // a boolean value is passed in, not an event object.
+   this.setState(() => ({calendarFocused: focused}))
+};
+
+<SingleDatePicker
+   date={this.state.createdAt}
+   onDateChange={this.onDateChange}
+   focused={this.state.calendarFocused}
+   onFocusChange={this.onDateFocusChange}
+/>
+```
+So the above is the basic, default picker. There are a few things we need to change
+in its usage here. The default behavior doesn't allow you to pick dates in the past.
+We obviously need that here. It also displays two months by default, we want to set
+that to one.
+
+```javascript
+<SingleDatePicker
+   date={this.state.createdAt}
+   onDateChange={this.onDateChange}
+   focused={this.state.calendarFocused}
+   onFocusChange={this.onDateFocusChange}
+   numberOfMonths={1}           // only display 1 month instead of 2
+   isOutsideRange={() => false} // inline function to turn off range checking so you can select in the past.
+/>
+```
 ### Video 107 - Wiring up Add Expense
 ### Video 108 - Wiring up Edit Expense
 ### Video 109 - Redux Dev Tools
