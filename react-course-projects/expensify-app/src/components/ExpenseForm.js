@@ -12,7 +12,8 @@ export default class ExpenseForm extends React.Component {
         note: '',
         amount: '',
         createdAt: moment(),
-        calendarFocused: false
+        calendarFocused: false,
+        errorMessage: ''
     }
 
     // add a class method to handle the change in the description
@@ -26,20 +27,41 @@ export default class ExpenseForm extends React.Component {
     };
     onAmountChange = (e) => {
         const amount = e.target.value;
-        if (amount.match(/^\d*(\.\d{0,2})?$/)) {
+        if (!amount || amount.match(/^\d{1,}(\.\d{0,2})?$/)) {
             this.setState(() => ({ amount }));
         }
     };
     onDateChange = (createdAt) => {
-        this.setState(() => ({ createdAt }));
+        if (createdAt) {
+            this.setState(() => ({ createdAt }));
+        }
     };
     onDateFocusChange = ({ focused }) => {
         this.setState(() => ({ calendarFocused: focused }))
     };
+    onSubmit = (e) => {
+        e.preventDefault();
+
+        // validate description and amount
+        if (! this.state.description || ! this.state.amount) {
+            this.setState(() => ({ errorMessage: "You must specify description and amount." }));
+        } else {
+            this.setState(() => ({ errorMessage: "" }));
+
+            // call the onSubmit property function value passed in with the <ExpenseForm> tag.
+            this.props.onSubmit({
+                description: this.state.description,
+                amount: parseFloat(this.state.amount, 10) * 10,
+                createdAt: this.state.createdAt.valueOf(),
+                note: this.state.note
+            });
+        }
+    };
     render() {
         return (
             <div>
-                <form>
+                {this.state.errorMessage && <p>{this.state.errorMessage}</p>}
+                <form onSubmit={this.onSubmit}>
                     <input
                         type="text"
                         placeholder="Description"
@@ -59,7 +81,7 @@ export default class ExpenseForm extends React.Component {
                         focused={this.state.calendarFocused}
                         onFocusChange={this.onDateFocusChange}
                         numberOfMonths={1}
-                        isOutsideRange={()=> false}
+                        isOutsideRange={() => false}
                     />
                     <textarea
                         value={this.state.note}

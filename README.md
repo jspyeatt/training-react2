@@ -3942,6 +3942,88 @@ that to one.
 />
 ```
 ### Video 107 - Wiring up Add Expense
+We are going to add an onSubmit handler to the form which will gather up the component
+state information and save it to the redux store.
+
+So we add a new method `onSubmit()`. The new method will.
+
+Do error checking to make certain the amount and description aren't empty. If they are empty an error message `errorMessage` will be displayed.
+```javascript
+    onSubmit = (e) => {
+        e.preventDefault();
+
+        // validate description and amount
+        if (! this.state.description || ! this.state.amount) {
+            this.setState(() => ({ errorMessage: "You must specify description and amount." }));
+        } else {
+            this.setState(() => ({ errorMessage: "" }));
+        }
+    };
+```
+Now for dispatching the data to redux we actually don't do it in the 
+ExpenseForm component because we want to reuse the component for Add 
+and Edit. So we want to dispatch to different action generators. 
+
+So in the AddExpensePage we are going to add an onSubmit handler to ExpenseForm.
+```javascript
+```
+The form will pass the expense information to it. We need to add a call to onSubmit propert.
+```javascript
+onSubmit = (e) => {
+	e.preventDefault();
+
+	// validate description and amount
+	if (! this.state.description || ! this.state.amount) {
+	    this.setState(() => ({ errorMessage: "You must specify description and amount." }));
+	} else {
+	    this.setState(() => ({ errorMessage: "" }));
+
+
+	    // call the onSubmit property function value passed 
+	    // in with the <ExpenseForm> tag. This builds out the data to pass.
+	    
+	    this.props.onSubmit({
+		description: this.state.description,
+		amount: parseFloat(this.state.amount, 10) * 10,
+		createdAt: this.state.createdAt.valueOf(),
+		note: this.state.note
+	    });
+	}
+};
+```
+
+Now we need to dispatch the appropriate function for adding an expense.
+```javascript
+import React from 'react';
+import ExpenseForm from './ExpenseForm';
+import {connect} from 'react-redux';                  // need redux and action generator
+import {addExpense} from '../actions/expenses';
+const AddExpensePage = (props) => (
+    <div>
+        <h1>Add Expense</h1>
+        <ExpenseForm
+        onSubmit={(expense) => {
+            props.dispatch(addExpense(expense));  // Save the expense
+        }}/>
+    </div>
+);
+
+// wrap up the component with the redux stuff.
+export default connect()(AddExpensePage);
+```
+The last thing we are going to do is redirect to the dashboard when the expense
+has been submitted.
+
+One of the inherited properties of a component is `history`. And inside that property
+is the method `push()` which you can use to specify a new page to display programmatically.
+```javascript
+<ExpenseForm
+    onSubmit={(expense) => {
+       props.dispatch(addExpense(expense));
+       props.history.push('/');
+}}/>
+```
+
 ### Video 108 - Wiring up Edit Expense
 ### Video 109 - Redux Dev Tools
 ### Video 110 - Filtering By Dates
