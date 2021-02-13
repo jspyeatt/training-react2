@@ -3776,6 +3776,95 @@ The snippet added to ExpenseListFilters will look like this:
 ```
 
 ### Video 105 - Created Expense Add/Edit Form
+There are currently AddExpensePage and EditExpensePage. They present the same form though with
+slightly different defaults and arguments. We are going to create one form that is shared between
+the two of them.
+
+We add /components/ExpenseForm.js and add that component to the function for AddExpensePage.js.
+
+In ExpenseForm we are going to add form elements. **Plus** we want to use local component state
+to store form changes until we hit submit. When we hit submit we want to take that local state
+and put it in the redux store.
+
+This is the first pass at this and there is still a lot here.
+```javascript
+import React from 'react';
+
+export default class ExpenseForm extends React.Component {
+    state = {
+        description: ''
+    }
+
+    // add a class method to handle the change in the description
+    onDescriptionChange = (e) => {
+        const desc = e.target.value;
+        this.setState(() => ({description: desc}));
+    };
+    render() {
+        return (
+            <div>
+                <form>
+                    <input
+                        type="text"
+                        placeholder="Description"
+                        autoFocus
+                        value={this.state.description}
+                        onChange={this.onDescriptionChange}
+                    />
+                    <input
+                        type="number"
+                        placeholder="Amount"
+                    />
+                    <textarea placeholder="Add a note"></textarea>
+                    <button>
+                        Add Expense
+                    </button>
+                </form>
+            </div>
+        )
+    }
+}
+```
+I created a class method, onDescriptionChange() to store the component description as a class state
+variable.
+
+The Description `<input>` form element has `placeholder=` which puts an explanation right in the text field. It also has the `autoFocus` value.
+
+The Amount `<input>` has a type=number which means it gives you an selector arrow to add or subtract values.
+
+**Important** You have to be careful how you reference the event object in setState(). In fact,
+you can't. The problem is that the setState() is not actually performed in the context of the 
+onDescriptionChange. So if our code looked like this:
+```javascript
+onDescriptionChange = (e) => {
+this.setState(() => ({description: e.target.value}));          // directly referencing the event target
+};
+```
+It would fail, because we are trying to reference e.target.value in the setState() callback. Which
+is out of context.
+
+So we have to do it as follows.
+```javascript
+onDescriptionChange = (e) => {
+const desc = e.target.value;                 // assigning target value to a variable instead.
+this.setState(() => ({description: desc}));
+};
+```
+
+Now for the amount field, we are going to be enforcing a specific format. To do this we are going
+to put some conditional logic in the `onChange()`. We also need to change the input type from
+`number` to `text`. So we are going to treat amount as text in the object, and manually handle
+the formatting and state change. It's actually pretty simple.
+```javascript
+onAmountChange = (e) => {
+const amount = e.target.value;
+if (amount.match(/^\d*(\.\d{0,2})?$/)) {    // only allow digits with a maximum of 2 places past the decimal.
+    this.setState(() => ({ amount }));
+}
+};
+```
+
+
 ### Video 106 - Setting up a Date Picker
 ### Video 107 - Wiring up Add Expense
 ### Video 108 - Wiring up Edit Expense
