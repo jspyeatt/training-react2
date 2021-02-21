@@ -4146,7 +4146,87 @@ export default () => {
 }
 ```
 ### Video 110 - Filtering By Dates
+Going to use the react-dates library. For this we are going to use the date range picker to filter
+the expenses by date. `<DateRangePicker>`.
+
+First we will change the default start and end date in the filters.js reducer to use the 1st and
+last day of the current month. The moment library has a nice way of handling this.
+```javascript
+const filtersReducerDefaultState = {
+    text: '',
+    sortBy: 'date',
+    startDate: moment().startOf('month'),
+    endDate: moment().endOf('month')
+};
+```
+Now we wire up the picker in ExpenseListFilters. The `<DateRangePicker>` works very similar to the
+`<SingleDatePicker>` with the exception that it has a start and end date. Because there is state
+associated with the form now that we are adding a datepicker we need to change the component from
+a stateless one to a class-based component. Then in the new component we need to track `this.calendarFocused`. Also, because we are changing to a class component, to reference the 
+props in the component we need `this`.
+
+For the date picker we need to set 5 fields in the component and add functions as appropriate. The
+5 properties are startDate, endDate, onDatesChange, focusedInput and onFocusChange. We are going to
+add the additional properties as well (numberOfMonths, isOutsideRange, showClearDates).
+
+
+```javascript
+class ExpenseListFilters extends React.Component {
+    state = {
+        calendarFocused: null
+    }
+    onDatesChange = ({ startDate, endDate }) => {
+        console.log('onDatesChange()');
+        this.props.dispatch(setStartDate(startDate));
+        this.props.dispatch(setEndDate(endDate));
+    };
+    onFocusChange = ((calendarFocused) => {
+        this.setState(() => ({ calendarFocused: calendarFocused }))
+    });
+    
+    <DateRangePicker
+    startDate={this.props.filters.startDate}
+    endDate={this.props.filters.endDate}
+    onDatesChange={this.onDatesChange}
+    focusedInput={this.state.calendarFocused}
+    onFocusChange={this.onFocusChange}
+    numberOfMonths={1}
+    isOutsideRange={() => false}
+    showClearDates={true}
+/>
+```
+Up to this point we've used epoch time for filtering. That won't work anymore because we are
+using moment(). So we have to change the selectors/expense.js to use dates instead of epoch.
+
+For moment we use the query method. We are going to use isSameOrBefore() and isSameOrAfter(). So
+our original implementation changes from this
+```javascript
+const startDateMatch = typeof startDate !== 'number' || expense.createdAt >= startDate;
+const endDateMatch = typeof endDate !== 'number' || expense.createdAt <= endDate;
+```
+to this
+```javascript
+const createdAtMoment = moment(expense.createdAt);
+const startDateMatch = startDate ? startDate.isSameOrBefore(createdAtMoment, 'day'): true;
+const endDateMatch = endDate ? endDate.isSameOrAfter(createdAtMoment, 'day'): true;
+```
 
 ## Section 12: Testing Your Application
-
+### Video 111 - Intro
+### Video 112 - Setting up Jest
+### Video 113 - Testing Expenses Action Generators
+### Video 114 - Testing Filters Action Generators
+### Video 115 - Testing Expenses Selector
+### Video 116 - Testing Filters Reducer
+### Video 117 - Testing Expenses Reducer
+### Video 118 - Snapshot Testing
+### Video 119 - Enzyme
+### Video 120 - Snapshot Testing with Dynamic Components
+### Video 121 - Mocking Libraries with Jest
+### Video 122 - Testing User Interaction
+### Video 123 - Test Spies
+### Video 124 - Testing AddExpensePage
+### Video 125 - Testing EditExpensePage
+### Video 126 - Testing ExpenseListFilters
+### Video 127 - Testing ExpenseListFilters part 2
 
