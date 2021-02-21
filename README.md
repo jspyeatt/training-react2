@@ -4129,6 +4129,22 @@ const EditExpensePage = (props) => {
 ```
 
 ### Video 109 - Redux Dev Tools
+Google redux developer tools extension. And install the extension in chrome.
+
+Then we have to make one small modification to our code where we do the `createStore()` call which
+is in configureStore.js.
+```javascript
+export default () => {
+    const store = createStore(
+        combineReducers({
+            expenses: expensesReducer,
+            filters: filtersReducer
+        }),
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()  // THIS is what we add so we can use redux tools
+    );
+    return store;
+}
+```
 ### Video 110 - Filtering By Dates
 
 ## Section 12: Testing Your Application
