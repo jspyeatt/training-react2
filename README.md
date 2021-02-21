@@ -3965,9 +3965,8 @@ ExpenseForm component because we want to reuse the component for Add
 and Edit. So we want to dispatch to different action generators. 
 
 So in the AddExpensePage we are going to add an onSubmit handler to ExpenseForm.
-```javascript
-```
-The form will pass the expense information to it. We need to add a call to onSubmit propert.
+
+The form will pass the expense information to it. We need to add a call to onSubmit property.
 ```javascript
 onSubmit = (e) => {
 	e.preventDefault();
@@ -4025,6 +4024,110 @@ is the method `push()` which you can use to specify a new page to display progra
 ```
 
 ### Video 108 - Wiring up Edit Expense
+So now we are going to reuse the ExpenseForm in the Edit process. The only real differences between
+Add and Edit is edit has the uuid and it will be using actual default values in the ExpenseForm state.
+
+So to do this we will pass in an optional property to the ExpenseForm which will contain the missing
+data.
+
+We will also add a link on the ExpenseListItem rendering in the ExpenseList to pass in the uuid.
+
+```javascript
+import {Link} from 'react-router-dom';
+<span><Link to={`/edit/${id}`}>{description}</Link></span>
+```
+Now we can connect the EditExpensePage to the redux store so it can access the expense record.
+
+To do this we have to add `connect()` and `mapStateToProps` in EditExpensePage and wire up an onSubmit. But we also need to define a new prop on the ExpenseForm where the expense object can
+be passed to the form so it can be used to set defaults.
+
+```javascript
+
+const EditExpensePage = (props) => {
+    return (
+        <div>
+            <ExpenseForm
+                expense={props.expense}        // adding the expense property to ExpenseForm and pass in the props.expense which was found in mapStateToProps
+                onSubmit={(expense) => {
+                    console.log('updated', expense);
+                }}
+            />
+        </div>
+    );
+};
+
+const mapStateToProps = (state, props) => {
+    return {
+        expense: state.expenses.find((expense) => {
+            return expense.id === props.match.params.id;  // return true if the expense.id matches the prop id passed in.  So the expense object is found.
+        })
+    }
+};
+export default connect(mapStateToProps)(EditExpensePage);
+```
+To set the new defaults we need to change the state in the constructor function of ExpenseForm. So
+we need to add something other than the default constructor to ExpenseForm.
+```javascript
+export default class ExpenseForm extends React.Component {
+
+    // created a constructor where the props are passed in so we can set the defaults.
+    constructor(props) {
+        super(props)
+        this.state = {
+            description: (props.expense) ? props.expense.description : '',
+            note: (props.expense) ? props.expense.note : '',
+            amount: (props.expense) ? (props.expense.amount / 100).toString() : '',
+            createdAt: (props.expense) ? moment(props.expense.createdAt): moment(),
+            calendarFocused: false,
+            errorMessage: ''
+        };
+    }
+
+```
+
+Next we need to change the `onSubmit` on the EditExpensePage to dispatch the new expense
+data to redux and then redirect to the dashboard.
+
+```javascript
+const EditExpensePage = (props) => {
+    return (
+        <div>
+            <ExpenseForm
+                expense={props.expense}
+                onSubmit={(expense) => {
+                    props.dispatch(editExpense(props.expense.id, expense));  // dispatching for edit
+                    props.history.push('/');
+                }}
+            />
+        </div>
+    );
+};
+```
+Last thing in the video is we are going to move the Remove button from the dashboard page to the
+Edit page. We need to make certain we use `props.dispatch()` and `props.expense.id` in the remove.
+```javascript
+const EditExpensePage = (props) => {
+    return (
+        <div>
+            <ExpenseForm
+                expense={props.expense}        // adding the expense property to ExpenseForm and pass in the props.expense which was found in mapStateToProps
+                onSubmit={(expense) => {
+                    props.dispatch(editExpense(props.expense.id, expense));
+                    props.history.push('/');
+                }}
+            />
+            // Add the Remove button
+            <span>
+                <button onClick={(e) => {
+                    props.dispatch(removeExpense({ id: props.expense.id }));
+                    props.history.push('/');
+                }}>Remove</button>
+            </span>
+        </div>
+    );
+};
+```
+
 ### Video 109 - Redux Dev Tools
 ### Video 110 - Filtering By Dates
 

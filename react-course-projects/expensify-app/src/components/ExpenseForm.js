@@ -7,14 +7,18 @@ const now = moment();
 console.log(now.format());
 
 export default class ExpenseForm extends React.Component {
-    state = {
-        description: '',
-        note: '',
-        amount: '',
-        createdAt: moment(),
-        calendarFocused: false,
-        errorMessage: ''
+    constructor(props) {
+        super(props)
+        this.state = {
+            description: (props.expense) ? props.expense.description : '',
+            note: (props.expense) ? props.expense.note : '',
+            amount: (props.expense) ? (props.expense.amount / 100).toString() : '',
+            createdAt: (props.expense) ? moment(props.expense.createdAt): moment(),
+            calendarFocused: false,
+            errorMessage: ''
+        };
     }
+
 
     // add a class method to handle the change in the description
     onDescriptionChange = (e) => {
@@ -43,7 +47,7 @@ export default class ExpenseForm extends React.Component {
         e.preventDefault();
 
         // validate description and amount
-        if (! this.state.description || ! this.state.amount) {
+        if (!this.state.description || !this.state.amount) {
             this.setState(() => ({ errorMessage: "You must specify description and amount." }));
         } else {
             this.setState(() => ({ errorMessage: "" }));
